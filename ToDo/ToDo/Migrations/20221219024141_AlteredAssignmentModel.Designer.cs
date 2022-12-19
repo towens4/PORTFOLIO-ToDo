@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ToDo.Models.DataContexts;
 
@@ -11,9 +12,11 @@ using ToDo.Models.DataContexts;
 namespace ToDo.Migrations
 {
     [DbContext(typeof(ToDoDataContext))]
-    partial class ToDoDataContextModelSnapshot : ModelSnapshot
+    [Migration("20221219024141_AlteredAssignmentModel")]
+    partial class AlteredAssignmentModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -247,12 +250,12 @@ namespace ToDo.Migrations
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("UserIDId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("AssignmentID");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserIDId");
 
                     b.ToTable("Assignments");
                 });
@@ -310,11 +313,11 @@ namespace ToDo.Migrations
 
             modelBuilder.Entity("ToDo.Models.DataModels.Assignment", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "UserID")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserIDId");
 
-                    b.Navigation("User");
+                    b.Navigation("UserID");
                 });
 #pragma warning restore 612, 618
         }
