@@ -11,5 +11,10 @@ namespace ToDo.Models.DataContexts
         {
             Database.EnsureCreated();
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+        }
     }
 }

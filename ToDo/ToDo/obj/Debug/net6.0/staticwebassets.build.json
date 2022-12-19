@@ -1,0 +1,19 @@
+{
+  "Version": 1,
+  "Hash": "hddoqsyl+na3iNi1fkkzPu28jhgbj1ZaScKxUQgYwsI=",
+  "Source": "ToDo",
+  "BasePath": "_content/ToDo",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "ToDo\\wwwroot",
+      "Source": "ToDo",
+      "ContentRoot": "C:\\Users\\timow\\Documents\\GitHub\\PORTFOLIO-ToDo\\ToDo\\ToDo\\wwwroot\\",
+      "BasePath": "_content/ToDo",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": []
+}
