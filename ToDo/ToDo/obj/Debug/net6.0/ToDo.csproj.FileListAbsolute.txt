@@ -83,3 +83,4 @@ C:\Users\timow\Documents\GitHub\PORTFOLIO-ToDo\ToDo\ToDo\obj\Debug\net6.0\refint
 C:\Users\timow\Documents\GitHub\PORTFOLIO-ToDo\ToDo\ToDo\obj\Debug\net6.0\ToDo.pdb
 C:\Users\timow\Documents\GitHub\PORTFOLIO-ToDo\ToDo\ToDo\obj\Debug\net6.0\ToDo.genruntimeconfig.cache
 C:\Users\timow\Documents\GitHub\PORTFOLIO-ToDo\ToDo\ToDo\obj\Debug\net6.0\ref\ToDo.dll
+C:\Users\timow\Documents\GitHub\PORTFOLIO-ToDo\ToDo\ToDo\bin\Debug\net6.0\libman.json

@@ -17,6 +17,8 @@ app.UseFileServer();
 app.UseRouting();
 app.UseAuthentication();
 
-app.MapGet("/", () => "Hello World!");
+app.MapControllerRoute("default", "{Controller=Home}/{Action=Index}/{id?}");
+
+//app.MapGet("/", () => "Hello World!");
 
 app.Run();
