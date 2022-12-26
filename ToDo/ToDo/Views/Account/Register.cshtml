@@ -1,0 +1,28 @@
+﻿@model ToDo.ViewModels.RegisterViewModel;
+
+<form method="post">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="form-container">
+        <label asp-for="Email"></label>
+        <div class="form-input">
+            <input asp-for="Email" placeholder="Enter Your Email:"/>
+            <span asp-validation-for="Email"></span>
+        </div>
+    </div>
+    <div class="form-container">
+        <label asp-for="Password"></label>
+        <div class="form-input">
+            <input asp-for="Password" placeholder="Password"/>
+            <span asp-validation-for="Password"></span>
+        </div>
+    </div>
+    <div class="form-container">
+        <label asp-for="ConfirmPassword"></label>
+        <div class="form-input">
+            <input asp-for="ConfirmPassword"/>
+            <span asp-validation-for="ConfirmPassword"></span>
+        </div>
+    </div>
+    
+    <button type="submit">Register</button>
+</form>

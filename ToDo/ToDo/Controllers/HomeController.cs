@@ -1,21 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ToDo.Interfaces;
 using ToDo.Models.DataContexts;
 
 namespace ToDo.Controllers
 {
     public class HomeController : Controller
     {
-        ToDoDataRespository _toDoDataRespository;
-        HttpClient _httpClient;
-        public HomeController(ToDoDataRespository toDoDataRespository, HttpClient httpClient)
+        IToDoRepository _toDoDataRespository;
+        
+        public HomeController(IToDoRepository toDoDataRespository)
         {
             _toDoDataRespository = toDoDataRespository;
-            _httpClient = httpClient;
+            
         }
         public IActionResult Index()
         {
             
-            return View(_toDoDataRespository.GetAssignments(HttpContext.Session.Id));
+            //var list = _toDoDataRespository.GetAssignments(HttpContext.Session.Id);
+            return View();
         }
     }
 }

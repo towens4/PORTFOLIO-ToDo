@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using ToDo.Interfaces;
 using ToDo.Models.DataContexts;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,7 @@ builder.Services.AddDbContext<ToDoDataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ToDoConnectionString")));
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ToDoDataContext>();
+builder.Services.AddScoped<IToDoRepository, ToDoDataRespository>();
 
 var app = builder.Build();
 
