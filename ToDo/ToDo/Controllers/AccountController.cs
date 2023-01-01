@@ -32,6 +32,10 @@ namespace ToDo.Controllers
                 await _signInManager.SignInAsync(user, isPersistent: false);
             }
 
+            foreach(var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
 
             
             return View(register);
@@ -63,6 +67,12 @@ namespace ToDo.Controllers
             
 
             return View();
+        }
+
+        public IActionResult LogOut()
+        {
+            _signInManager.SignOutAsync();
+            return RedirectToAction("LogIn", "Account");
         }
     }
 }

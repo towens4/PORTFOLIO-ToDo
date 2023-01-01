@@ -1,4 +1,7 @@
-﻿
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> signUser;
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>HTML 5 Boilerplate</title>
     <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/styles.css"/>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg">
@@ -18,8 +22,21 @@
                 <li class="nav-item"><a class="nav-link">Account</a></li>
             </ul>
             <div>
-                <span><a>@Html.ActionLink("Register", "Register", "Account")</a></span>
-                <span><a>@Html.ActionLink("Login", "Login", "Account")</a></span>
+                @if(signUser.IsSignedIn(User))
+                {
+                    <form method="post">
+                        <button type="submit" asp-controller="Account" asp-action="LogOut">
+                            Log Out
+                        </button>
+                    </form>
+                    //<span><a>@Html.ActionLink("Log Out", "LogOut", "Account")</a></span>
+                }
+                else
+                {
+                    <span><a>@Html.ActionLink("Register", "Register", "Account")</a></span>
+                    <span><a>@Html.ActionLink("Login", "Login", "Account")</a></span>
+                }
+                
             </div>
         </div>
     </nav>

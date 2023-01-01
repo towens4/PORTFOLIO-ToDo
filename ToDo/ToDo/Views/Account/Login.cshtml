@@ -4,18 +4,18 @@
     <div asp-validation-summary="ModelOnly"></div>
     <div class="form-container">
         <label asp-for="Email"></label>
-        <div class="form-input">
-            <input asp-for="Email" placeholder="Enter Your Email:" />
+        <div>
+            <input asp-for="Email" placeholder="Enter Your Email:" class="form-input" />
             <span asp-validation-for="Email"></span>
         </div>
     </div>
     <div class="form-container">
         <label asp-for="Password"></label>
-        <div class="form-input">
-            <input asp-for="Password" placeholder="Password" />
+        <div>
+            <input asp-for="Password" placeholder="Password" class="form-input" />
             <span asp-validation-for="Password"></span>
         </div>
     </div>
 
-    <button type="submit">Register</button>
+    <button type="submit" class="btn btn-primary my-4">Login</button>
 </form>

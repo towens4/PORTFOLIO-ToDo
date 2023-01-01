@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "j8+AZGZJFFYKg1hdULM1k1okK297LW28TM41JTSPaok=",
+  "Hash": "pHsM7tEa7DSYCVDlUmaJs+4WIv6X0NB/4ICekD7jlf8=",
   "Source": "ToDo",
   "BasePath": "_content/ToDo",
   "Mode": "Default",
@@ -16,6 +16,23 @@
     }
   ],
   "Assets": [
+    {
+      "Identity": "C:\\Users\\timow\\Documents\\GitHub\\PORTFOLIO-ToDo\\ToDo\\ToDo\\wwwroot\\css\\styles.css",
+      "SourceId": "ToDo",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\timow\\Documents\\GitHub\\PORTFOLIO-ToDo\\ToDo\\ToDo\\wwwroot\\",
+      "BasePath": "_content/ToDo",
+      "RelativePath": "css/styles.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\styles.css"
+    },
     {
       "Identity": "C:\\Users\\timow\\Documents\\GitHub\\PORTFOLIO-ToDo\\ToDo\\ToDo\\wwwroot\\lib\\bootstrap\\css\\bootstrap.css",
       "SourceId": "ToDo",
