@@ -16,7 +16,7 @@ namespace ToDo.Controllers
         public IActionResult Index()
         {
             
-            //var list = _toDoDataRespository.GetAssignments(HttpContext.Session.Id);
+            var list = _toDoDataRespository.GetAssignments(HttpContext.Session.Id);
             return View();
         }
     }

@@ -1,0 +1,25 @@
+﻿@model IEnumerable<ToDo.Models.DataModels.Assignment>
+
+@if(Model.Count().Equals(0))
+{
+    <div class="notice">
+        <h2>You have not created any assignments</h2>
+        <p>Click below to create one</p>
+        <button class="btn btn-primary">@Html.ActionLink("Create Assignment", "CreateAssignment", "Assignment")</button>
+    </div>
+}
+else{
+    foreach(var item in Model){
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">@item.AssignmentName</h5>
+                <p class="card-text">@item.AssignmentDescription</p>
+                <p>Due: @item.DueDate</p>
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+            </div>
+        </div>
+    }
+    
+}
+

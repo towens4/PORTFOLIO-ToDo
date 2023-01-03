@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace ToDo.Models.DataModels
+namespace ToDo.ViewModels
 {
-    public class Assignment
+    public class AssignmentCreateViewModel
     {
-        public int AssignmentID { get; set; }
-        public IdentityUser User { get; set; }
+        
         [StringLength(90, ErrorMessage = "Assignment title is too long, cannot exceed 90 characters")]
         [Required]
         public string AssignmentName { get; set; }
@@ -14,10 +12,7 @@ namespace ToDo.Models.DataModels
         [Required]
         public string AssignmentDescription { get; set; }
         [DataType(DataType.DateTime)]
-        public DateTime DateAssigned { get; set; } = DateTime.Now;
-        [DataType(DataType.DateTime)]
         public DateTime DueDate { get; set; }
-        [Required]
-        public Boolean Completed { get; set; }
+        
     }
 }

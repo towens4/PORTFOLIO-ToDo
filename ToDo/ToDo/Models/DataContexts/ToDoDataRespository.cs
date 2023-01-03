@@ -22,5 +22,13 @@ namespace ToDo.Models.DataContexts
         {
             return _toDoDataContext.Assignments.Where(id => id.User.Id.Equals(userId)).ToList();
         }
+
+        public Assignment GetById(string id)
+        {
+            return !string.IsNullOrWhiteSpace(id) ? _toDoDataContext.Assignments.Find(Int32.Parse(id)) : null;
+            //return _toDoDataContext.Assignments.Find(id);
+        }
+
+        
     }
 }

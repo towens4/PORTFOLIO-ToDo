@@ -37,6 +37,7 @@ namespace ToDo.Controllers
                 ModelState.AddModelError(string.Empty, error.Description);
             }
 
+            HttpContext.Session.SetString("Id", user.Id.ToString());
             
             return View(register);
         }
@@ -52,11 +53,13 @@ namespace ToDo.Controllers
             if (!ModelState.IsValid)
                 return View();
 
+            var userTask = await _userManager.FindByNameAsync(login.Email);
             var result = await _signInManager.PasswordSignInAsync(login.Email, login.Password, false, false);
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Index", "Home");
+                HttpContext.Session.SetString("Id", userTask.Id.ToString());
+                return RedirectToAction("Index", "Assignment");
             }
             else
             {

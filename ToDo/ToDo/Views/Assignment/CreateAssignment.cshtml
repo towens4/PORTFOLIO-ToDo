@@ -1,0 +1,27 @@
+﻿@model ToDo.ViewModels.AssignmentCreateViewModel;
+
+<form method="post">
+    <div class="form-container">
+        <label asp-for="AssignmentName"></label>
+        <div>
+            <input asp-for="AssignmentName" class="form-input"/>
+            <span asp-validation-for="AssignmentName"></span>
+        </div>
+    </div>
+    <div class="form-container">
+        <label asp-for="AssignmentDescription"></label>
+        <div>
+            <textarea asp-for="AssignmentDescription" class="form-input"></textarea>
+            <span asp-validation-for="AssignmentDescription"></span>
+        </div>
+    </div>
+    <div class="form-container">
+        <label asp-for="DueDate"></label>
+        <div>
+            <input asp-for="DueDate" class="form-input" />
+            <span asp-validation-for="DueDate"></span>
+        </div>
+    </div>
+
+    <button type="submit">Submit</button>
+</form>
