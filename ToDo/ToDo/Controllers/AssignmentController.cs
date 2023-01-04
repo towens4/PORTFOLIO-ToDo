@@ -24,7 +24,8 @@ namespace ToDo.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            return View(_repository.GetAssignments(HttpContext.Session.Id));
+            //var userID = _userManager.GetUserId(HttpContext.User);
+            return View(_repository.GetAssignments(HttpContext.Session.GetString("Id")));
         }
 
         public IActionResult CreateAssignment()
@@ -38,18 +39,23 @@ namespace ToDo.Controllers
             if(!ModelState.IsValid)
                 return View(assignment);
 
+            var sessionResult = HttpContext.Session.GetString("Id");
+            var userID = _userManager.GetUserId(HttpContext.User);
+
+            //Debug.WriteLine(userID);
+
             Assignment newAssignment = new Assignment()
             {
                 AssignmentDescription = assignment.AssignmentDescription,
                 AssignmentName = assignment.AssignmentName,
                 DueDate = assignment.DueDate,
-                User = await _userManager.FindByIdAsync(HttpContext.Session.Id)
+                User = await _repository.getUserAsync(HttpContext.Session.GetString("Id"))
             };
 
             _toDoDataContext.Add(newAssignment);
             _toDoDataContext.SaveChanges();
 
-            return View();
+            return RedirectToAction("Index", "Assignment");
         }
 
         public IActionResult EditAssignment(int id)

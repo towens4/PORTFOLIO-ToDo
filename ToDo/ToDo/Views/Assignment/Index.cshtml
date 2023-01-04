@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<ToDo.Models.DataModels.Assignment>
 
-@if(Model.Count().Equals(0))
+@if(Model.Count().Equals(null))
 {
     <div class="notice">
         <h2>You have not created any assignments</h2>
@@ -20,6 +20,7 @@ else{
             </div>
         </div>
     }
+    <button class="btn btn-primary">@Html.ActionLink("Create Assignment", "CreateAssignment", "Assignment")</button>
     
 }
 

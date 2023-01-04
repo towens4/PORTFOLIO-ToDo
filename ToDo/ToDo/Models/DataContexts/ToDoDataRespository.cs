@@ -8,19 +8,23 @@ namespace ToDo.Models.DataContexts
     public class ToDoDataRespository : IToDoRepository
     {
         public static ToDoDataContext _toDoDataContext;
+        private UserManager<IdentityUser> _userManager { get; set; }
 
         public ToDoDataRespository()
         {
         }
 
-        public ToDoDataRespository(ToDoDataContext toDoDataContext)
+        public ToDoDataRespository(ToDoDataContext toDoDataContext, UserManager<IdentityUser> userManager)
         {
             _toDoDataContext = toDoDataContext;
+            _userManager = userManager;
         }
 
         public List<Assignment> GetAssignments(string userId)
         {
-            return _toDoDataContext.Assignments.Where(id => id.User.Id.Equals(userId)).ToList();
+
+            var list = _toDoDataContext.Assignments.Where(id => id.User.Id.Equals(userId)).ToList();
+            return list;
         }
 
         public Assignment GetById(string id)
@@ -29,6 +33,9 @@ namespace ToDo.Models.DataContexts
             //return _toDoDataContext.Assignments.Find(id);
         }
 
-        
+        public async Task<IdentityUser> getUserAsync(string id)
+        {
+            return await _userManager.FindByIdAsync(id);
+        }
     }
 }

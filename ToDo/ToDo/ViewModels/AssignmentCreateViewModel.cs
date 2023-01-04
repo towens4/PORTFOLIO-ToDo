@@ -4,7 +4,7 @@ namespace ToDo.ViewModels
 {
     public class AssignmentCreateViewModel
     {
-        
+        //public string UserId { get; set; }
         [StringLength(90, ErrorMessage = "Assignment title is too long, cannot exceed 90 characters")]
         [Required]
         public string AssignmentName { get; set; }
