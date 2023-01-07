@@ -58,9 +58,11 @@ namespace ToDo.Controllers
             return RedirectToAction("Index", "Assignment");
         }
 
+        [HttpGet("{id:int}")]
+        //[Route("Assignment/EditAssignment/{id}")]
         public IActionResult EditAssignment(int id)
         {
-            Assignment currentAssignment = _repository.GetById(id.ToString());
+            Assignment currentAssignment = _repository.GetById(id);
             AssignmentEditViewModel assignment = new AssignmentEditViewModel()
             {
                 AssignmentID = currentAssignment.AssignmentID,
@@ -72,6 +74,7 @@ namespace ToDo.Controllers
             return View(assignment);
         }
 
+        [HttpPut]
         public IActionResult EditAssignment(AssignmentEditViewModel assignmentToEdit)
         {
             if (assignmentToEdit == null)
@@ -109,9 +112,11 @@ namespace ToDo.Controllers
         }
 
         [HttpDelete]
-        public IActionResult RemoveAssignment()
+        public IActionResult RemoveAssignment(int id)
         {
-            return View();
+            _toDoDataContext.Remove(id);
+            _toDoDataContext.SaveChanges();
+            return RedirectToAction("Index", "Assignment");
         }
     }
 }

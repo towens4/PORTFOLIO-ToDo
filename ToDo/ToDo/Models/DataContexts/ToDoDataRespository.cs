@@ -27,9 +27,9 @@ namespace ToDo.Models.DataContexts
             return list;
         }
 
-        public Assignment GetById(string id)
+        public Assignment GetById(int id)
         {
-            return !string.IsNullOrWhiteSpace(id) ? _toDoDataContext.Assignments.Find(Int32.Parse(id)) : null;
+            return !id.Equals(0) || !id.Equals(null) ? _toDoDataContext.Assignments.Find(id) : null;
             //return _toDoDataContext.Assignments.Find(id);
         }
 

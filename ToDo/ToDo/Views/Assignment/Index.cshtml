@@ -9,14 +9,16 @@
     </div>
 }
 else{
-    foreach(var item in Model){
+    foreach(var assignment in Model){
         <div class="card" style="width: 18rem;">
             <div class="card-body">
-                <h5 class="card-title">@item.AssignmentName</h5>
-                <p class="card-text">@item.AssignmentDescription</p>
-                <p>Due: @item.DueDate</p>
+                <h5 class="card-title">@assignment.AssignmentName</h5>
+                <p class="card-text">@assignment.AssignmentDescription</p>
+                <p>Due: @assignment.DueDate</p>
                 <a href="#" class="card-link">Card link</a>
                 <a href="#" class="card-link">Another link</a>
+                <button class="btn btn-primary">@Html.ActionLink("Edit", "EditAssignment", "Assignment", new{id = assignment.AssignmentID}, null)</button>
+                <button class="btn btn-danger">@Html.ActionLink("Delete", "RemoveAssignment", "Assignment", new {id = assignment.AssignmentID})</button>
             </div>
         </div>
     }

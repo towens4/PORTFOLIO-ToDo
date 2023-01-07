@@ -1,6 +1,6 @@
 ﻿@model ToDo.ViewModels.AssignmentEditViewModel;
 
-<form method="post">
+<form method="post" asp-controller="assignment" asp-action="editAssignment">
     <input hidden asp-for="AssignmentID"/>
     <div class="form-container">
         <label asp-for="AssignmentName"></label>
