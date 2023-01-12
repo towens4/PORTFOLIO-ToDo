@@ -111,10 +111,11 @@ namespace ToDo.Controllers
             return RedirectToAction("Index", "Assignment");
         }
 
-        [HttpDelete]
+        //[HttpDelete]
         public IActionResult RemoveAssignment(int id)
         {
-            _toDoDataContext.Remove(id);
+            Assignment assignment = _repository.GetById(id);
+            _toDoDataContext.Assignments.Remove(assignment);
             _toDoDataContext.SaveChanges();
             return RedirectToAction("Index", "Assignment");
         }
