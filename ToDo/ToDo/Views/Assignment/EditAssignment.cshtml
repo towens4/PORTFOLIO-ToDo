@@ -1,6 +1,7 @@
 ﻿@model ToDo.ViewModels.AssignmentEditViewModel;
 
-<form method="post" asp-controller="assignment" asp-action="editAssignment">
+@using (Html.BeginForm("EditAssignment", "Assignment", FormMethod.Post))
+{
     <input hidden asp-for="AssignmentID"/>
     <div class="form-container">
         <label asp-for="AssignmentName"></label>
@@ -25,4 +26,4 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+}

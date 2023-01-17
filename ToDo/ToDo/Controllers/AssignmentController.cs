@@ -30,7 +30,7 @@ namespace ToDo.Controllers
 
         public IActionResult CreateAssignment()
         {
-            return View(new AssignmentCreateViewModel());
+            return View(new AssignmentCreateViewModel() { DueDate = DateTime.Now});
         }
 
         [HttpPost]
@@ -58,7 +58,7 @@ namespace ToDo.Controllers
             return RedirectToAction("Index", "Assignment");
         }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:int}")] 
         //[Route("Assignment/EditAssignment/{id}")]
         public IActionResult EditAssignment(int id)
         {
@@ -74,41 +74,37 @@ namespace ToDo.Controllers
             return View(assignment);
         }
 
-        [HttpPut]
+        [HttpPost]
         public IActionResult EditAssignment(AssignmentEditViewModel assignmentToEdit)
         {
-            if (assignmentToEdit == null)
-                return View(assignmentToEdit);
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return View(assignmentToEdit);
-            }
-
-
-
-            try
-            {
-                Assignment newAssignment = new Assignment()
+                try
                 {
-                    AssignmentID = assignmentToEdit.AssignmentID,
-                    AssignmentDescription = assignmentToEdit.AssignmentDescription,
-                    AssignmentName = assignmentToEdit.AssignmentName,
-                    DueDate = assignmentToEdit.DueDate,
-                };
+                    Assignment newAssignment = _repository.GetById(assignmentToEdit.AssignmentID);
+                    newAssignment.AssignmentID = assignmentToEdit.AssignmentID;
+                    newAssignment.AssignmentDescription = assignmentToEdit.AssignmentDescription;
+                    newAssignment.AssignmentName = assignmentToEdit.AssignmentName;
+                    newAssignment.DueDate = assignmentToEdit.DueDate;
 
 
-                _toDoDataContext.Update(newAssignment);
-                _toDoDataContext.SaveChanges();
+                    _toDoDataContext.Update(newAssignment);
+                    _toDoDataContext.SaveChanges();
+                }
+                catch (Exception exception)
+                {
+                    Debug.WriteLine($"{exception.Message} {exception.StackTrace}");
+                }
+                return RedirectToAction("Index", "Assignment");
             }
-            catch(Exception exception)
-            {
-                Debug.WriteLine($"{exception.Message} {exception.StackTrace}");
-            }
+
+          
 
             
 
-            return RedirectToAction("Index", "Assignment");
+            
+            return View(assignmentToEdit);
         }
 
         //[HttpDelete]

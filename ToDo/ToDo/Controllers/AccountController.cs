@@ -39,7 +39,7 @@ namespace ToDo.Controllers
 
             HttpContext.Session.SetString("Id", user.Id.ToString());
             
-            return View(register);
+            return RedirectToAction("Index", "Assignment");
         }
 
         public IActionResult Login()

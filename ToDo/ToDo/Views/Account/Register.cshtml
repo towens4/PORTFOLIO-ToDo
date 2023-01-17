@@ -1,5 +1,6 @@
 ﻿@model ToDo.ViewModels.RegisterViewModel;
 
+<h2 class="my-4">Register</h2>
 <form method="post">
     <div asp-validation-summary="ModelOnly"></div>
     <div class="form-container">
@@ -25,4 +26,5 @@
     </div>
     
     <button type="submit" class="btn btn-primary my-4">Register</button>
+    <span class="mx-4">Have an account? <a class="account-link" asp-action="Login" asp-controller="Account">Log In</a></span>
 </form>

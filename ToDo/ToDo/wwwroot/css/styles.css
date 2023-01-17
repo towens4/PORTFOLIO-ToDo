@@ -23,6 +23,14 @@ a {
         color: hsl(0, 0%, 100%);
     }
 
+    .account-link{
+        color: hsl(218, 100%, 59%)
+    }
+
+        .account-link:hover {
+            color: hsl(218, 100%, 80%)
+        }
+
 .submit-a-button {
     background-color: hsl(207, 100%, 44%)
 }

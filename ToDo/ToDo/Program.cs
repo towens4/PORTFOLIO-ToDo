@@ -18,6 +18,9 @@ builder.Services.AddScoped<IToDoRepository, ToDoDataRespository>();
 
 var app = builder.Build();
 
+
+app.UseDeveloperExceptionPage();
+
 app.UseFileServer();
 
 app.UseSession();
