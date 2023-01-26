@@ -11,6 +11,7 @@
     <title>HTML 5 Boilerplate</title>
     <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="/css/styles.css"/>
+    <script src="https://kit.fontawesome.com/51b8b313be.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg">
@@ -25,7 +26,7 @@
                 @if(signUser.IsSignedIn(User))
                 {
                     <form method="post">
-                        <button type="submit" asp-controller="Account" asp-action="LogOut">
+                        <button class="btn btn-danger" type="submit" asp-controller="Account" asp-action="LogOut">
                             Log Out
                         </button>
                     </form>
@@ -43,8 +44,9 @@
 
     <div class="container">
         @RenderBody()
-    </div>
+    </div>  
+    <script src="./JS/jquery.min.js"></script>
     <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="index.js"></script>
+    <script src="./JS/scripts.js"></script>
 </body>
 </html>

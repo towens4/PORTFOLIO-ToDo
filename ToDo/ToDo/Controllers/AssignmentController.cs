@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Security.Claims;
 using ToDo.Interfaces;
+using ToDo.Logic;
 using ToDo.Models.DataContexts;
 using ToDo.Models.DataModels;
 using ToDo.ViewModels;
@@ -24,8 +25,10 @@ namespace ToDo.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            //var userID = _userManager.GetUserId(HttpContext.User);
-            return View(_repository.GetAssignments(HttpContext.Session.GetString("Id")));
+            var id = HttpContext.Session.GetString("Id");
+            var assignmentList = _repository.GetAssignments(id);
+            
+            return View(assignmentList.ToList());
         }
 
         public IActionResult CreateAssignment()
@@ -58,20 +61,28 @@ namespace ToDo.Controllers
             return RedirectToAction("Index", "Assignment");
         }
 
-        [HttpGet("{id:int}")] 
-        //[Route("Assignment/EditAssignment/{id}")]
+        [HttpGet] 
+        [Route("Assignment/EditAssignment")]
         public IActionResult EditAssignment(int id)
         {
-            Assignment currentAssignment = _repository.GetById(id);
-            AssignmentEditViewModel assignment = new AssignmentEditViewModel()
+            try
             {
-                AssignmentID = currentAssignment.AssignmentID,
-                AssignmentName = currentAssignment.AssignmentName,
-                AssignmentDescription = currentAssignment.AssignmentDescription,
-                DueDate = currentAssignment.DueDate,
-            };
+                Assignment model = _repository.GetById(id);
+                AssignmentEditViewModel assignmentEditViewModel = new AssignmentEditViewModel()
+                {
+                    AssignmentID = model.AssignmentID,
+                    AssignmentName = model.AssignmentName,
+                    AssignmentDescription = model.AssignmentDescription,
+                    DueDate = model.DueDate,
+                };
 
-            return View(assignment);
+                return View(assignmentEditViewModel);
+            }
+            catch(Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+            return RedirectToAction("Index");
         }
 
         [HttpPost]

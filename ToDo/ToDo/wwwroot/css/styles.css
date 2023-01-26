@@ -31,6 +31,16 @@ a {
             color: hsl(218, 100%, 80%)
         }
 
+.task-holder{
+    cursor:pointer;
+    
+}
+
+
+.task-holder:hover{
+    background-color: hsl(0, 0%, 80%)
+}
+
 .submit-a-button {
     background-color: hsl(207, 100%, 44%)
 }

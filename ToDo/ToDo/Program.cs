@@ -21,7 +21,7 @@ var app = builder.Build();
 
 app.UseDeveloperExceptionPage();
 
-app.UseFileServer();
+app.UseStaticFiles();
 
 app.UseSession();
 app.UseRouting();

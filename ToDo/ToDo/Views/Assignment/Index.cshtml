@@ -9,18 +9,30 @@
     </div>
 }
 else{
-    foreach(var assignment in Model){
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">@assignment.AssignmentName</h5>
-                <p class="card-text">@assignment.AssignmentDescription</p>
-                <p>Due: @assignment.DueDate</p>
-                <a class="submit-a-button button-base" asp-controller="Assignment" asp-action="EditAssignment" asp-route-id="@assignment.AssignmentID">Edit</a>
-                <a class="delete-a-button button-base" asp-controller="Assignment" asp-action="RemoveAssignment" asp-route-id="@assignment.AssignmentID">Delete</a>
+    <button class="btn btn-primary my-2">@Html.ActionLink("Create Assignment", "CreateAssignment", "Assignment")</button>
+    <select class="task-sort">
+        <option>Sort by...</option>
+        <option value="1">Due Date</option>
+        <option value="2">A-Z</option>
+        <option value="3">Z-A</option>
+    </select>
+    <div class="task-list">
+        @foreach(var Model in Model)
+        {
+            <div class="card my-2 task-holder" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.AssignmentName</h5>
+                    <p>Due: @Model.DueDate</p>
+                    <i class="fa-solid fa-angle-down"></i>
+                    <div class="task-desc">
+                        <p class="card-text">@Model.AssignmentDescription</p>
+                        <a class="submit-a-button button-base" asp-controller="Assignment" asp-action="EditAssignment" asp-route-id="@Model.AssignmentID">Edit</a>
+                        <a class="delete-a-button button-base" asp-controller="Assignment" asp-action="RemoveAssignment" asp-route-id="@Model.AssignmentID">Delete</a>
+                    </div>
+                </div>
             </div>
-        </div>
-    }
-    <button class="btn btn-primary">@Html.ActionLink("Create Assignment", "CreateAssignment", "Assignment")</button>
+        }
+    </div>
     
 }
 
