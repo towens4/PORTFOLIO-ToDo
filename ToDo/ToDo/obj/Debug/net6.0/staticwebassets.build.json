@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "TcmLTWy3kn2kMeapQrLbfmskkI/ieXCKT1aYpSmFP9k=",
+  "Hash": "5HiW86ucHkpBQb8U/6bFkwrZ7UEnJkkyC9i/QG0Vm+k=",
   "Source": "ToDo",
   "BasePath": "_content/ToDo",
   "Mode": "Default",
@@ -66,6 +66,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\JS\\jquery.min.map"
+    },
+    {
+      "Identity": "C:\\Users\\timow\\Documents\\GitHub\\PORTFOLIO-ToDo\\ToDo\\ToDo\\wwwroot\\JS\\jQueryRotate.js",
+      "SourceId": "ToDo",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\timow\\Documents\\GitHub\\PORTFOLIO-ToDo\\ToDo\\ToDo\\wwwroot\\",
+      "BasePath": "_content/ToDo",
+      "RelativePath": "JS/jQueryRotate.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\JS\\jQueryRotate.js"
     },
     {
       "Identity": "C:\\Users\\timow\\Documents\\GitHub\\PORTFOLIO-ToDo\\ToDo\\ToDo\\wwwroot\\JS\\scripts.js",
