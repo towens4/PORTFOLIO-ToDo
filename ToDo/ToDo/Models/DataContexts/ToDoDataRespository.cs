@@ -22,8 +22,14 @@ namespace ToDo.Models.DataContexts
 
         public List<Assignment> GetAssignments(string userId)
         {
-
-            var list = _toDoDataContext.Assignments.Where(id => id.User.Id.Equals(userId)).ToList();
+            DateTime time;
+            List<Assignment> list = _toDoDataContext.Assignments.Where(id => id.User.Id.Equals(userId)).ToList();
+            foreach(Assignment item in list)
+            {
+                time = DateTime.Parse(item.DueDate.ToString());
+                item.StrDate = item.DueDate.Date.ToString("d");
+                item.StrTime = time.ToString("h:mm tt");
+            }
             return list;
         }
 

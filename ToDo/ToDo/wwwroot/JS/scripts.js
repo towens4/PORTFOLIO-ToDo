@@ -17,30 +17,32 @@ const sortSwitch = {
     "default": console.log("Unknown")
 }
 
-const demo = {
-    "value": (value) => { },
-    "loe": (value) => { },
+const toggleAngle = {
+    "fa-solid fa-angle-up": (element) => {
+        element.removeClass("fa-angle-up");
+        element.addClass("fa-solid fa-angle-down");
+    },
+    "fa-solid fa-angle-down": (element) => {
+        element.removeClass("fa-angle-down");
+        element.addClass("fa-solid fa-angle-up");
+    }
 }
+
 /** Write code to get class name of the i (icon) tag */
-
-
 
 $('.fa-arrow-down').on("click", function () {
     $(this).toggleClass('fa-solid fa-angle-up');
 })
 
 $('.task-holder').on("click", function () {
-    
-    console.log(this.firstElementChild.children);
+    const icon = $(this).find('i').attr("class");
+    console.log(icon);
     //$(this).find('i').removeClass();
     //$(this).find('i').toggleClass("fa-solid fa-angle-down");
-    toggleAngle($(this).find('i'));
+    toggleAngle[icon]($(this).find('i'));
+    //toggleAngle($(this).find('i'));
     $('.task-desc', this).toggle();
 });
-
-/*function () {
-    return $(this).parent().is("fa-angle-up") ? "fa-angle-down" : "fa-angle-up"
-}*/
 
 $(".task-sort").on("change", function () {
     const value = $(this).val();
@@ -50,7 +52,7 @@ $(".task-sort").on("change", function () {
     
 });
 
-function toggleAngle(element)
+/*function toggleAngle(element)
 {
     if (element.hasClass("fa-solid fa-angle-up"))
     {
@@ -64,7 +66,7 @@ function toggleAngle(element)
         element.addClass("fa-solid fa-angle-up");
         return;
     }
-}
+}*/
 
 function getTargetElement(element, value)
 {

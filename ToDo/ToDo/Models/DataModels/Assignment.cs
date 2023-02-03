@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ToDo.Models.DataModels
 {
@@ -19,5 +20,9 @@ namespace ToDo.Models.DataModels
         public DateTime DueDate { get; set; }
         [Required]
         public Boolean Completed { get; set; }
+        [NotMapped]
+        public string StrDate { get; set; }
+        [NotMapped]
+        public string StrTime { get; set; }
     }
 }
