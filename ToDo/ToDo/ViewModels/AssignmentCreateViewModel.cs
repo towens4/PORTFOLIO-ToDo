@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using ToDo.Interfaces;
 
 namespace ToDo.ViewModels
 {
-    public class AssignmentCreateViewModel
+    public class AssignmentCreateViewModel : IAssignmentViewModel
     {
         //public string UserId { get; set; }
         [StringLength(90, ErrorMessage = "Assignment title is too long, cannot exceed 90 characters")]

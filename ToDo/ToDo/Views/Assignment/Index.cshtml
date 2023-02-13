@@ -1,6 +1,12 @@
-﻿@model IEnumerable<ToDo.Models.DataModels.Assignment>
+﻿@using ToDo.Models.DataModels
+@using ToDo.ViewModels
+@model AssignmentListModel;
 
-@if(Model.Count().Equals(0))
+    @{
+        Assignment assignment = Model.Assignment;
+    }
+
+@if(Model.AssignmentList.Count().Equals(0))
 {
     <div class="notice">
         <h2>You have not created any assignments</h2>
@@ -9,6 +15,7 @@
     </div>
 }
 else{
+    
     <button class="btn btn-primary my-2">@Html.ActionLink("Create Assignment", "CreateAssignment", "Assignment")</button>
     <select class="task-sort">
         <option>Sort by...</option>
@@ -16,23 +23,39 @@ else{
         <option value="2">A-Z</option>
         <option value="3">Z-A</option>
     </select>
-    <div class="task-list">
-        @foreach(var Model in Model)
-        {
-            <div class="card my-2 task-holder" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">@Model.AssignmentName</h5>
-                    <p>Due: @Model.StrDate @Model.StrTime</p>
-                    <i class="fa-solid fa-angle-up"></i>
-                    <div class="task-desc">
-                        <p class="card-text">@Model.AssignmentDescription</p>
-                        <a class="submit-a-button button-base" asp-controller="Assignment" asp-action="EditAssignment" asp-route-id="@Model.AssignmentID">Edit</a>
-                        <a class="delete-a-button button-base" asp-controller="Assignment" asp-action="RemoveAssignment" asp-route-id="@Model.AssignmentID">Delete</a>
+    <div class="task-container">
+        <div class="task-list">
+            @foreach(var Model in Model.AssignmentList)
+            {
+                <a href="@Url.Action("Index", "Assignment", new {Id = Model.AssignmentID})">
+                    <div class="card my-2 task-holder" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title" id="assignmentName">@Model.AssignmentName</h5>
+                            <div>
+                                <p id="assignmentDate">@Model.StrDate</p>
+                                <p id="assignmentTime">@Model.StrTime</p>
+                            </div>
+                        
+                            <i class="fa-solid fa-angle-up"></i>
+                            <div class="task-desc">
+                                <p id="assignmentDescription" class="card-text">@Model.AssignmentDescription</p>
+                                <a class="submit-a-button button-base" asp-controller="Assignment" asp-action="EditAssignment" asp-route-id="@Model.AssignmentID">Edit</a>
+                                <a class="delete-a-button button-base" asp-controller="Assignment" asp-action="RemoveAssignment" asp-route-id="@Model.AssignmentID">Delete</a>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                </a>
+            }
+        </div>
+        
+        @if(assignment is not null)
+        {
+            @await Html.PartialAsync("AssignmentDetails", assignment)
         }
+        
+        
     </div>
+    
     
 }
 

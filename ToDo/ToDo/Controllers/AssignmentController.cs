@@ -23,12 +23,18 @@ namespace ToDo.Controllers
             _userManager = userManager;
         }
         [Authorize]
-        public IActionResult Index()
+        public IActionResult Index(int? id)
         {
-            var id = HttpContext.Session.GetString("Id");
-            var assignmentList = _repository.GetAssignments(id);
+            var userID = HttpContext.Session.GetString("Id");
+            var assignmentList = _repository.GetAssignments(userID);
+            Assignment? assignment = id == null? null: _repository.GetById((int)id);
             
-            return View(assignmentList.ToList());
+            AssignmentListModel assignmentListModel = new AssignmentListModel()
+            {
+                AssignmentList = assignmentList,
+                Assignment = assignment,
+            };
+            return View(assignmentListModel);
         }
 
         public IActionResult CreateAssignment()
@@ -125,6 +131,12 @@ namespace ToDo.Controllers
             _toDoDataContext.Assignments.Remove(assignment);
             _toDoDataContext.SaveChanges();
             return RedirectToAction("Index", "Assignment");
+        }
+
+        public IActionResult AssignmentDetails(int id)
+        {
+            
+            return PartialView(_repository.GetById(id));
         }
     }
 }

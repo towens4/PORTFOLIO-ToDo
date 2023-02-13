@@ -3,7 +3,7 @@
 
 const sortSwitch = {
     "1": (value, list) => {
-        list.sort(function (a, b) { return getTargetElement(a, value).localeCompare(getTargetElement(b, value)); })
+        list.sort(function (a, b) { return getTargetElement(b, value).localeCompare(getTargetElement(a, value)); })
         rearrageHTML(list)
     },
     "2": (value, list) => {
@@ -28,7 +28,6 @@ const toggleAngle = {
     }
 }
 
-/** Write code to get class name of the i (icon) tag */
 
 $('.fa-arrow-down').on("click", function () {
     $(this).toggleClass('fa-solid fa-angle-up');
@@ -36,11 +35,7 @@ $('.fa-arrow-down').on("click", function () {
 
 $('.task-holder').on("click", function () {
     const icon = $(this).find('i').attr("class");
-    console.log(icon);
-    //$(this).find('i').removeClass();
-    //$(this).find('i').toggleClass("fa-solid fa-angle-down");
     toggleAngle[icon]($(this).find('i'));
-    //toggleAngle($(this).find('i'));
     $('.task-desc', this).toggle();
 });
 
@@ -52,27 +47,19 @@ $(".task-sort").on("change", function () {
     
 });
 
-/*function toggleAngle(element)
-{
-    if (element.hasClass("fa-solid fa-angle-up"))
-    {
-        element.removeClass("fa-angle-up");
-        element.addClass("fa-solid fa-angle-down");
-        return;
-    }
-    if (element.hasClass("fa-solid fa-angle-down"))
-    {
-        element.removeClass("fa-angle-down");
-        element.addClass("fa-solid fa-angle-up");
-        return;
-    }
-}*/
-
 function getTargetElement(element, value)
 {
     const index = value == 0 ? 1 : 0;
+    if (index == 0)
+    {
+        //get due date elements by id
+        const date = $("#assignmentDate");
+        const time = $("#assignmentTime");
+        return date + " " + time;
+        console.log(element.firstElementChild.children[1]);
+    }
     console.log(index)
-    return element.firstElementChild.children[index].innerHTML;
+    return $("#assignmentDescription");
 }
 
 function rearrageHTML(elementList)

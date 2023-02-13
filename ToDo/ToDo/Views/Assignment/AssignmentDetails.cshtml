@@ -1,0 +1,24 @@
+﻿@model ToDo.Models.DataModels.Assignment;
+<div class="task-view">
+    <div class="form-container">
+        <label asp-for="AssignmentName"></label>
+        <div>
+            <input asp-for="AssignmentName" class="form-input" />
+
+        </div>
+    </div>
+    <div class="form-container">
+        <label asp-for="AssignmentDescription"></label>
+        <div>
+            <textarea asp-for="AssignmentDescription" class="form-input"></textarea>
+
+        </div>
+    </div>
+    <div class="form-container">
+        <label asp-for="DueDate"></label>
+        <div>
+            <input asp-for="DueDate" class="form-input" />
+
+        </div>
+    </div>
+</div>
