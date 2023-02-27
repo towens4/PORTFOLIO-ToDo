@@ -10,5 +10,7 @@ namespace ToDo.ViewModels
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "A password is required")]
         public string Password { get; set; }
+
+        
     }
 }

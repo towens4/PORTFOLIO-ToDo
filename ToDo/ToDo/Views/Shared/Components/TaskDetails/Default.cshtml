@@ -1,0 +1,26 @@
+﻿@model ToDo.ViewModels.AssignmentListModel;
+<div class="task-view">
+    <div class="form-container">
+        <label asp-for="Assignment.AssignmentName"></label>
+        <div>
+            <input asp-for="Assignment.AssignmentName" class="form-input" />
+
+        </div>
+    </div>
+    <div class="form-container">
+        <label asp-for="Assignment.AssignmentDescription"></label>
+        <div>
+            <textarea asp-for="Assignment.AssignmentDescription" class="form-input"></textarea>
+
+        </div>
+    </div>
+    <div class="form-container">
+        <label asp-for="Assignment.DueDate"></label>
+        <div>
+            <input asp-for="Assignment.DueDate" class="form-input" />
+
+        </div>
+    </div>
+    <a class="submit-a-button button-base" asp-controller="Assignment" asp-action="EditAssignment" asp-route-id="@Model.Assignment.AssignmentID">Edit</a>
+    <a class="delete-a-button button-base" asp-controller="Assignment" asp-action="RemoveAssignment" asp-route-id="@Model.Assignment.AssignmentID">Delete</a>
+</div>

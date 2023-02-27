@@ -1,27 +1,27 @@
-﻿@model ToDo.ViewModels.RegisterViewModel;
+﻿@model ToDo.ViewModels.AssignmentListModel;
 
 <h2 class="my-4">Register</h2>
 <form method="post">
     <div asp-validation-summary="ModelOnly"></div>
     <div class="form-container">
-        <label asp-for="Email"></label>
+        <label asp-for="RegisterModel.Email"></label>
         <div>
-            <input asp-for="Email" placeholder="Enter Your Email:" class="form-input"/>
-            <span asp-validation-for="Email"></span>
+            <input asp-for="RegisterModel.Email" placeholder="Enter Your Email:" class="form-input" />
+            <span asp-validation-for="RegisterModel.Email"></span>
         </div>
     </div>
     <div class="form-container">
-        <label asp-for="Password"></label>
+        <label asp-for="RegisterModel.Password"></label>
         <div>
-            <input asp-for="Password" placeholder="Password" class="form-input" />
-            <span asp-validation-for="Password"></span>
+            <input asp-for="RegisterModel.Password" placeholder="Password" class="form-input" />
+            <span asp-validation-for="RegisterModel.Password"></span>
         </div>
     </div>
     <div class="form-container">
-        <label asp-for="ConfirmPassword"></label>
+        <label asp-for="RegisterModel.ConfirmPassword"></label>
         <div>
-            <input asp-for="ConfirmPassword" class="form-input" />
-            <span asp-validation-for="ConfirmPassword"></span>
+            <input asp-for="RegisterModel.ConfirmPassword" class="form-input" />
+            <span asp-validation-for="RegisterModel.ConfirmPassword"></span>
         </div>
     </div>
     

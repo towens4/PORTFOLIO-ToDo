@@ -1,20 +1,22 @@
-﻿@model ToDo.ViewModels.LoginViewModel;
+﻿@model ToDo.ViewModels.AssignmentListModel;
+
+
 
 <h2 class="my-4">Login</h2>
 <form method="post">
     <div asp-validation-summary="ModelOnly"></div>
     <div class="form-container">
-        <label asp-for="Email"></label>
+        <label asp-for="LoginModel.Email"></label>
         <div>
-            <input asp-for="Email" placeholder="Enter Your Email:" class="form-input" />
-            <span asp-validation-for="Email"></span>
+            <input asp-for="LoginModel.Email" placeholder="Enter Your Email:" class="form-input" />
+            <span asp-validation-for="LoginModel.Email"></span>
         </div>
     </div>
     <div class="form-container">
-        <label asp-for="Password"></label>
+        <label asp-for="LoginModel.Password"></label>
         <div>
-            <input asp-for="Password" placeholder="Password" class="form-input" />
-            <span asp-validation-for="Password"></span>
+            <input asp-for="LoginModel.Password" placeholder="Password" class="form-input" />
+            <span asp-validation-for="LoginModel.Password"></span>
         </div>
     </div>
 

@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using System.Diagnostics;
 using System.Security.Claims;
 using ToDo.Interfaces;
@@ -16,11 +18,13 @@ namespace ToDo.Controllers
         private readonly IToDoRepository _repository;
         private readonly ToDoDataContext _toDoDataContext;
         private readonly UserManager<IdentityUser> _userManager;
+        
         public AssignmentController(IToDoRepository repository, ToDoDataContext toDoDataContext, UserManager<IdentityUser> userManager)
         {
             _repository = repository;
             _toDoDataContext = toDoDataContext;
             _userManager = userManager;
+            
         }
         [Authorize]
         public IActionResult Index(int? id)
@@ -39,14 +43,14 @@ namespace ToDo.Controllers
 
         public IActionResult CreateAssignment()
         {
-            return View(new AssignmentCreateViewModel() { DueDate = DateTime.Now});
+            return View(new AssignmentListModel());
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAssignment(AssignmentCreateViewModel assignment)
+        public async Task<IActionResult> CreateAssignment(AssignmentListModel assignmentListModel)
         {
             if(!ModelState.IsValid)
-                return View(assignment);
+                return View(assignmentListModel);
 
             var sessionResult = HttpContext.Session.GetString("Id");
             var userID = _userManager.GetUserId(HttpContext.User);
@@ -55,9 +59,9 @@ namespace ToDo.Controllers
 
             Assignment newAssignment = new Assignment()
             {
-                AssignmentDescription = assignment.AssignmentDescription,
-                AssignmentName = assignment.AssignmentName,
-                DueDate = assignment.DueDate,
+                AssignmentDescription = assignmentListModel.Assignment.AssignmentDescription,
+                AssignmentName = assignmentListModel.Assignment.AssignmentName,
+                DueDate = assignmentListModel.Assignment.DueDate,
                 User = await _repository.getUserAsync(HttpContext.Session.GetString("Id"))
             };
 
@@ -74,15 +78,15 @@ namespace ToDo.Controllers
             try
             {
                 Assignment model = _repository.GetById(id);
-                AssignmentEditViewModel assignmentEditViewModel = new AssignmentEditViewModel()
-                {
-                    AssignmentID = model.AssignmentID,
-                    AssignmentName = model.AssignmentName,
-                    AssignmentDescription = model.AssignmentDescription,
-                    DueDate = model.DueDate,
-                };
+                AssignmentListModel assignmentListModel = new AssignmentListModel();
+                assignmentListModel.AssignmentEditViewModel = new AssignmentEditViewModel();
+                
+                assignmentListModel.AssignmentEditViewModel.AssignmentID = model.AssignmentID;
+                assignmentListModel.AssignmentEditViewModel.AssignmentName = model.AssignmentName;
+                assignmentListModel.AssignmentEditViewModel.AssignmentDescription = model.AssignmentDescription;
+                assignmentListModel.AssignmentEditViewModel.DueDate = model.DueDate;
 
-                return View(assignmentEditViewModel);
+                return View(assignmentListModel);
             }
             catch(Exception e)
             {
@@ -92,18 +96,20 @@ namespace ToDo.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditAssignment(AssignmentEditViewModel assignmentToEdit)
+        public IActionResult EditAssignment(AssignmentListModel assignmentToEdit)
         {
+            ModelState.Remove("AssignmentList");
+            ModelState.Remove("Assignment");
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    Assignment newAssignment = _repository.GetById(assignmentToEdit.AssignmentID);
-                    newAssignment.AssignmentID = assignmentToEdit.AssignmentID;
-                    newAssignment.AssignmentDescription = assignmentToEdit.AssignmentDescription;
-                    newAssignment.AssignmentName = assignmentToEdit.AssignmentName;
-                    newAssignment.DueDate = assignmentToEdit.DueDate;
+                    Assignment newAssignment = _repository.GetById(assignmentToEdit.AssignmentEditViewModel.AssignmentID);
+                    newAssignment.AssignmentID = assignmentToEdit.AssignmentEditViewModel.AssignmentID;
+                    newAssignment.AssignmentDescription = assignmentToEdit.AssignmentEditViewModel.AssignmentDescription;
+                    newAssignment.AssignmentName = assignmentToEdit.AssignmentEditViewModel.AssignmentName;
+                    newAssignment.DueDate = assignmentToEdit.AssignmentEditViewModel.DueDate;
 
 
                     _toDoDataContext.Update(newAssignment);
@@ -116,11 +122,6 @@ namespace ToDo.Controllers
                 return RedirectToAction("Index", "Assignment");
             }
 
-          
-
-            
-
-            
             return View(assignmentToEdit);
         }
 
@@ -135,8 +136,30 @@ namespace ToDo.Controllers
 
         public IActionResult AssignmentDetails(int id)
         {
-            
-            return PartialView(_repository.GetById(id));
+            Assignment model = _repository.GetById(id);
+            AssignmentEditViewModel editModel = new AssignmentEditViewModel() 
+            { 
+                AssignmentDescription = model.AssignmentDescription,
+                AssignmentName = model.AssignmentName,
+                AssignmentID = model.AssignmentID,
+                DueDate = model.DueDate,
+            };
+            return View(new AssignmentListModel() { AssignmentEditViewModel = editModel});
+        }
+
+        public IActionResult TaskList(int? id)
+        {
+            var userID = HttpContext.Session.GetString("Id");
+            var assignmentList = _repository.GetAssignments(userID);
+            Assignment? assignment = id == null ? null : _repository.GetById((int)id);
+
+            AssignmentListModel assignmentListModel = new AssignmentListModel()
+            {
+                AssignmentList = assignmentList,
+                Assignment = assignment,
+            };
+
+            return PartialView(assignmentListModel);
         }
     }
 }

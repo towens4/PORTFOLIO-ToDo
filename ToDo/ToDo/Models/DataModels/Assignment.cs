@@ -19,7 +19,7 @@ namespace ToDo.Models.DataModels
         [DataType(DataType.DateTime)]
         public DateTime DueDate { get; set; }
         [Required]
-        public Boolean Completed { get; set; }
+        public Boolean Completed { get; set; } = false;
         [NotMapped]
         public string StrDate { get; set; }
         [NotMapped]

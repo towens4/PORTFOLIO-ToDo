@@ -1,0 +1,56 @@
+﻿@using ToDo.Models.DataModels
+@using ToDo.ViewModels
+@model AssignmentListModel;
+
+
+
+@if (Model.AssignmentList.Count().Equals(null) || Model.AssignmentList.Count().Equals(0))
+{
+    <div class="notice">
+        <h2>You have not created any assignments</h2>
+        <p>Click below to create one</p>
+        <button class="btn btn-primary submit-button">@Html.ActionLink("Create Assignment", "CreateAssignment", "Assignment")</button>
+    </div>
+}
+else
+{
+
+    <button class="btn btn-primary my-2">@Html.ActionLink("Create Assignment", "CreateAssignment", "Assignment")</button>
+    <select class="task-sort">
+        <option>Sort by...</option>
+        <option value="1">Due Date</option>
+        <option value="2">A-Z</option>
+        <option value="3">Z-A</option>
+    </select>
+    <div class="task-container">
+        <div class="task-list">
+            @foreach (var Model in Model.AssignmentList)
+            {
+                <a href="@Url.Action("AssignmentDetails", "Assignment", new {Id = Model.AssignmentID})">
+                    <div class="card my-2 task-holder" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title" id="assignmentName">@Model.AssignmentName</h5>
+                            <div>
+                                <p id="assignmentDate">@Model.StrDate</p>
+                                <p id="assignmentTime">@Model.StrTime</p>
+                            </div>
+
+                            <i class="fa-solid fa-angle-up"></i>
+                            <div class="task-desc">
+                                <p id="assignmentDescription" class="card-text">@Model.AssignmentDescription</p>
+                                <a class="submit-a-button button-base" asp-controller="Assignment" asp-action="EditAssignment" asp-route-id="@Model.AssignmentID">Edit</a>
+                                <a class="delete-a-button button-base" asp-controller="Assignment" asp-action="RemoveAssignment" asp-route-id="@Model.AssignmentID">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+
+        
+
+    </div>
+
+
+}
+

@@ -1,24 +1,26 @@
-﻿@model ToDo.Models.DataModels.Assignment;
+﻿@model ToDo.ViewModels.AssignmentListModel;
 <div class="task-view">
     <div class="form-container">
-        <label asp-for="AssignmentName"></label>
+        <label asp-for="AssignmentEditViewModel.AssignmentName"></label>
         <div>
-            <input asp-for="AssignmentName" class="form-input" />
+            <input asp-for="AssignmentEditViewModel.AssignmentName" class="form-input" />
 
         </div>
     </div>
     <div class="form-container">
-        <label asp-for="AssignmentDescription"></label>
+        <label asp-for="AssignmentEditViewModel.AssignmentDescription"></label>
         <div>
-            <textarea asp-for="AssignmentDescription" class="form-input"></textarea>
+            <textarea asp-for="AssignmentEditViewModel.AssignmentDescription" class="form-input"></textarea>
 
         </div>
     </div>
     <div class="form-container">
-        <label asp-for="DueDate"></label>
+        <label asp-for="AssignmentEditViewModel.DueDate"></label>
         <div>
-            <input asp-for="DueDate" class="form-input" />
+            <input asp-for="AssignmentEditViewModel.DueDate" class="form-input" />
 
         </div>
     </div>
+    <a class="submit-a-button button-base" asp-controller="Assignment" asp-action="EditAssignment" asp-route-id="@Model.AssignmentEditViewModel.AssignmentID">Edit</a>
+    <a class="delete-a-button button-base" asp-controller="Assignment" asp-action="RemoveAssignment" asp-route-id="@Model.AssignmentEditViewModel.AssignmentID">Delete</a>
 </div>

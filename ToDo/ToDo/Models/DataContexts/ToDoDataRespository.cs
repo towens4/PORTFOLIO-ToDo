@@ -23,7 +23,8 @@ namespace ToDo.Models.DataContexts
         public List<Assignment> GetAssignments(string userId)
         {
             DateTime time;
-            List<Assignment> list = _toDoDataContext.Assignments.Where(id => id.User.Id.Equals(userId)).ToList();
+            List<Assignment> listCompare = _toDoDataContext.Assignments.Where(id => id.User.Id.Equals(userId)).ToList();
+            List<Assignment> list = listCompare.IsNullOrEmpty()? new List<Assignment>(): listCompare;
             foreach(Assignment item in list)
             {
                 time = DateTime.Parse(item.DueDate.ToString());

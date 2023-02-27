@@ -1,5 +1,6 @@
 C:\Users\timow\Documents\GitHub\PORTFOLIO-ToDo\ToDo\ToDo\bin\Debug\net6.0\appsettings.Development.json
 C:\Users\timow\Documents\GitHub\PORTFOLIO-ToDo\ToDo\ToDo\bin\Debug\net6.0\appsettings.json
+C:\Users\timow\Documents\GitHub\PORTFOLIO-ToDo\ToDo\ToDo\bin\Debug\net6.0\libman.json
 C:\Users\timow\Documents\GitHub\PORTFOLIO-ToDo\ToDo\ToDo\bin\Debug\net6.0\ToDo.staticwebassets.runtime.json
 C:\Users\timow\Documents\GitHub\PORTFOLIO-ToDo\ToDo\ToDo\bin\Debug\net6.0\ToDo.exe
 C:\Users\timow\Documents\GitHub\PORTFOLIO-ToDo\ToDo\ToDo\bin\Debug\net6.0\ToDo.deps.json
@@ -83,4 +84,5 @@ C:\Users\timow\Documents\GitHub\PORTFOLIO-ToDo\ToDo\ToDo\obj\Debug\net6.0\refint
 C:\Users\timow\Documents\GitHub\PORTFOLIO-ToDo\ToDo\ToDo\obj\Debug\net6.0\ToDo.pdb
 C:\Users\timow\Documents\GitHub\PORTFOLIO-ToDo\ToDo\ToDo\obj\Debug\net6.0\ToDo.genruntimeconfig.cache
 C:\Users\timow\Documents\GitHub\PORTFOLIO-ToDo\ToDo\ToDo\obj\Debug\net6.0\ref\ToDo.dll
-C:\Users\timow\Documents\GitHub\PORTFOLIO-ToDo\ToDo\ToDo\bin\Debug\net6.0\libman.json
+C:\Users\timow\Documents\GitHub\PORTFOLIO-ToDo\ToDo\ToDo\bin\Debug\net6.0\AutoMapper.dll
+C:\Users\timow\Documents\GitHub\PORTFOLIO-ToDo\ToDo\ToDo\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

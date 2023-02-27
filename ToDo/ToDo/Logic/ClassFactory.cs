@@ -20,5 +20,10 @@ namespace ToDo.Logic
         {
             return new AssignmentCreateViewModel() { DueDate = DateTime.Now};
         }
+
+        public static AssignmentListModel CreateAssignmentListModel(List<Assignment> assignments, Assignment assignment)
+        {
+            return new AssignmentListModel() { AssignmentList = assignments, Assignment = assignment };
+        }
     }
 }

@@ -33,9 +33,15 @@ a {
 
 .task-holder{
     cursor:pointer;
-    
 }
 
+.task-anchor{
+    color:black
+}
+
+a{
+    color:inherit;
+}
 
 .task-holder:hover{
     background-color: hsl(0, 0%, 80%)
