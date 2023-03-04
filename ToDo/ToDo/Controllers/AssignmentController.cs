@@ -49,7 +49,10 @@ namespace ToDo.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAssignment(AssignmentListModel assignmentListModel)
         {
-            if(!ModelState.IsValid)
+            ModelState.Remove("AssignmentList");
+            ModelState.Remove("Assignment");
+
+            if (!ModelState.IsValid)
                 return View(assignmentListModel);
 
             var sessionResult = HttpContext.Session.GetString("Id");
@@ -59,9 +62,9 @@ namespace ToDo.Controllers
 
             Assignment newAssignment = new Assignment()
             {
-                AssignmentDescription = assignmentListModel.Assignment.AssignmentDescription,
-                AssignmentName = assignmentListModel.Assignment.AssignmentName,
-                DueDate = assignmentListModel.Assignment.DueDate,
+                AssignmentDescription = assignmentListModel.AssignmentEditViewModel.AssignmentDescription,
+                AssignmentName = assignmentListModel.AssignmentEditViewModel.AssignmentName,
+                DueDate = assignmentListModel.AssignmentEditViewModel.DueDate,
                 User = await _repository.getUserAsync(HttpContext.Session.GetString("Id"))
             };
 
