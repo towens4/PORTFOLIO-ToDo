@@ -1,6 +1,6 @@
 ﻿@model ToDo.ViewModels.AssignmentEditViewModel;
 <h2>Edit</h2>
-<form id="formSubmit" class="task-view" asp-action="EditAssignment" asp-controller="Assignment" method="post">
+<form id="formSubmit" class="task-view" onsubmit="return false;" asp-action="EditAssignment" asp-controller="Assignment" method="post">
     <input id="assignmentEditID" type="hidden" asp-for="AssignmentID"/>
     @Html.ValidationSummary()
     <div class="form-container">

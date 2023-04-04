@@ -97,11 +97,6 @@ namespace ToDo.Controllers
 
             _repository.CreateAssignment(newAssignment);
 
-            /*_toDoDataContext.Add(newAssignment);
-            _toDoDataContext.SaveChanges();*/
-
-            
-
             return RedirectToAction("Index", "Assignment");
         }
 
@@ -148,8 +143,6 @@ namespace ToDo.Controllers
 
                     _repository.UpdateAssignment(newAssignment);
                     return RedirectToAction("Index", "Assignment");
-                    /*_toDoDataContext.Update(newAssignment);
-                    _toDoDataContext.SaveChanges();*/
                 }
                 catch (Exception exception)
                 {
@@ -171,8 +164,6 @@ namespace ToDo.Controllers
         {
             Assignment assignment = _repository.GetById(id);
             _repository.DeleteAssignment(assignment);
-            /*_toDoDataContext.Assignments.Remove(assignment);
-            _toDoDataContext.SaveChanges();*/
             return RedirectToAction("Index", "Assignment");
         }
 

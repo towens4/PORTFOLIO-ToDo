@@ -77,6 +77,7 @@ namespace ToDo.Models.DataContexts
         public void CreateAssignment(Assignment assignment)
         {
             _toDoDataContext.Assignments.Add(assignment);
+            _toDoDataContext.SaveChanges();
         }
 
         public void DeleteAssignment(Assignment assignment)
