@@ -9,7 +9,21 @@ namespace ToDo.ViewModels
         public string AssignmentDescription { get; set; }
         public string AssignmentName { get; set; }
         public DateTime DueDate { get; set; }
+
         /*[DataType(DataType.DateTime)]
 public DateTime? DateAssigned { get; set; } = DateTime.Now;*/
+
+        public AssignmentEditViewModel()
+        {
+
+        }
+
+        public AssignmentEditViewModel(int assignmentId, string assignmentDescription, string assignmentName, DateTime dueDate)
+        {
+            AssignmentID = assignmentId;
+            AssignmentDescription = assignmentDescription;
+            AssignmentName = assignmentName;
+            DueDate = dueDate;
+        }
     }
 }

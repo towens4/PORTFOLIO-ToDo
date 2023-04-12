@@ -6,6 +6,22 @@ namespace ToDo.Models.DataModels
 {
     public class Assignment
     {
+        public Assignment()
+        {
+        }
+
+        public Assignment(int assignmentID, IdentityUser user, string assignmentName,
+            string assignmentDescription, DateTime dateAssigned, DateTime dueDate, bool completed)
+        {
+            AssignmentID = assignmentID;
+            User = user;
+            AssignmentName = assignmentName;
+            AssignmentDescription = assignmentDescription;
+            DateAssigned = dateAssigned;
+            DueDate = dueDate;
+            Completed = completed;
+        }
+
         public int AssignmentID { get; set; }
         public IdentityUser User { get; set; }
         [StringLength(90, ErrorMessage = "Assignment title is too long, cannot exceed 90 characters")]
@@ -24,5 +40,7 @@ namespace ToDo.Models.DataModels
         public string StrDate { get; set; }
         [NotMapped]
         public string StrTime { get; set; }
+
+
     }
 }

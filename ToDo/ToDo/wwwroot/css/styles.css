@@ -1,4 +1,26 @@
-﻿body {
+﻿* {
+    color: hsla(0, 0%, 91%, 1);
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+
+body {
+    background: hsla(234, 36%, 17%, 1)
+}
+
+#navbar li a{
+    color:inherit
+}
+
+.cd {
+    background-color: hsla(39, 100%, 50%, 1);
+}
+
+    .cd:hover {
+        background-color: hsla(39, 100%, 50%, 0.7);
+    }
+
+.cd.active {
+    background-color: hsla(39, 100%, 50%, 0.7);
 }
 
 .form-input{
@@ -6,11 +28,16 @@
     padding:0.4em;
 }
 
+.form-input, select, option{
+    color: black;
+}
+
 .button-base {
     padding: 0.5em 1.0em;
     display: inline-block;
     border-radius: 0.5em;
     color: hsl(0, 0%, 100%);
+    
 }
 
 a {
@@ -35,8 +62,12 @@ a {
     cursor:pointer;
 }
 
-.task-anchor{
-    color:black
+.card-body:hover{
+
+}
+
+.task-anchor {
+    color:black;
 }
 
 a{
@@ -48,11 +79,13 @@ a{
 }
 
 .submit-a-button {
-    background-color: hsl(207, 100%, 44%)
+    background-color: hsla(0, 0%, 80%, 1);
+    color: black;
+    
 }
 
-.delete-a-button{
-    background-color:hsl(0, 99%, 56%)
+.delete-a-button {
+    background-color: hsla(25, 100%, 40%, 1);
 }
 
 .submit-button{

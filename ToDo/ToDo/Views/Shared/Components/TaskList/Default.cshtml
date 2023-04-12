@@ -16,13 +16,13 @@
     <div class="notice">
         <h2>You have not created any assignments</h2>
         <p>Click below to create one</p>
-        <button class="btn btn-primary submit-button">@Html.ActionLink("Create Assignment", "CreateAssignment", "Assignment")</button>
+        <button id="createAssignment" data-url="@Url.Action("CreateAssignment", "Assignment")" class="btn btn-primary submit-button">Create</button>
     </div>
 }
 else if (Model.AssignmentList.Count() > 0 && signUser.IsSignedIn(User))
 {
 
-    <button class="btn btn-primary my-2">@Html.ActionLink("Create Assignment", "CreateAssignment", "Assignment")</button>
+    <button id="createAssignment" data-url="@Url.Action("CreateAssignment", "Assignment")" class="btn btn-primary my-2">Create</button>
     <select class="task-sort">
         <option>Sort by...</option>
         <option value="1">Due Date</option>
@@ -33,8 +33,9 @@ else if (Model.AssignmentList.Count() > 0 && signUser.IsSignedIn(User))
         <div class="task-list">
             @foreach (var Model in Model.AssignmentList)
             {
-                <a class="task-anchor" href="@Url.Action("AssignmentDetails", "Assignment", new {Id = Model.AssignmentID})">
-                    <div class="card my-2 task-holder" style="width: 18rem;">
+
+                <a id="taskHolder" class="task-anchor" data-url="@Url.Action("AssignmentDetails", "Assignment", new {Id = Model.AssignmentID})">
+                    <div class="card my-2 task-holder cd active" style="width: 18rem;" id="card">
                         <div class="card-body">
                             <h5 class="card-title" id="assignmentName">@Model.AssignmentName</h5>
                             <div>
@@ -45,8 +46,8 @@ else if (Model.AssignmentList.Count() > 0 && signUser.IsSignedIn(User))
                             <i class="fa-solid fa-angle-up"></i>
                             <div class="task-desc">
                                 <p id="assignmentDescription" class="card-text">@Model.AssignmentDescription</p>
-                                <a class="submit-a-button button-base" asp-controller="Assignment" asp-action="EditAssignment" asp-route-id="@Model.AssignmentID">Edit</a>
-                                <a class="delete-a-button button-base" asp-controller="Assignment" asp-action="RemoveAssignment" asp-route-id="@Model.AssignmentID">Delete</a>
+                                <a id="editAssignment" class="submit-a-button button-base my-2" data-url="@Url.Action("EditAssignment", "Assignment", new {Id = Model.AssignmentID})">Edit</a>
+                                <a class="delete-a-button button-base my-2" asp-controller="Assignment" asp-action="RemoveAssignment" asp-route-id="@Model.AssignmentID">Delete</a>
                             </div>
                         </div>
                     </div>

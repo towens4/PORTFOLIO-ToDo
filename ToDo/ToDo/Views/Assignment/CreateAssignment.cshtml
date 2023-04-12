@@ -1,8 +1,31 @@
-﻿@model ToDo.ViewModels.AssignmentListModel;
-
-<form class="task-view" method="post">
+﻿@model ToDo.ViewModels.AssignmentCreateViewModel
+<h2>Create</h2>
+<form id="createFormSubmit" onsubmit="return false;" data-url="/Assignment/CreateAssignment" class="task-view" method="post">
     
-    @await Html.PartialAsync("_TaskInput")
+    @Html.ValidationSummary();
+    <div class="form-container">
+        <label asp-for="AssignmentName"></label>
+        <div>
+            <input id="assignmentCreateName" asp-for="AssignmentName" class="form-input" />
+            <span asp-validation-for="AssignmentName"></span>
+        </div>
+    </div>
+    <div class="form-container">
+        <label asp-for="AssignmentDescription"></label>
+        <div>
+            <textarea id="assignmentCreateDescription" asp-for="AssignmentDescription" class="form-input"></textarea>
+            <span asp-validation-for="AssignmentDescription"></span>
+        </div>
+    </div>
+    <div class="form-container">
+        <label asp-for="DueDate"></label>
+        <div>
+            <input id="assignmentCreateDate" asp-for="DueDate" class="form-input" />
+            <span asp-validation-for="DueDate"></span>
+        </div>
+    </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <!--//await Html.PartialAsync("_TaskInput")-->
+
+    <button id="createSubmit" data-url="@Url.Action("CreateAssignment", "Assignment")" type="submit" class="btn btn-primary">Submit</button>
 </form>

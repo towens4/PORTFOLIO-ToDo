@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections;
 using ToDo.Interfaces;
 using ToDo.Models.DataModels;
 using ToDo.ViewModels;
@@ -16,16 +17,16 @@ namespace ToDo.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var userID = HttpContext.Session.GetString("Id");
-            var assignmentList = _repository.GetAssignments(userID);
-
+            //var assignmentList = _repository.GetAssignmentsAsync(userID);
+            IEnumerable<Assignment> assignments = _repository.GetAssignments(userID);
             if (!HttpContext.User.Identity.IsAuthenticated)
             {
-                assignmentList = new List<Assignment>();
+                assignments =  new List<Assignment>();
             }
 
             AssignmentListModel assignmentListModel = new AssignmentListModel() 
             { 
-                AssignmentList = assignmentList
+                AssignmentList = assignments
             };
 
             

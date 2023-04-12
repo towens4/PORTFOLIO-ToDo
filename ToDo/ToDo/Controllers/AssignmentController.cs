@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,20 +17,19 @@ namespace ToDo.Controllers
     public class AssignmentController : Controller
     {
         private readonly IToDoRepository _repository;
-        private readonly ToDoDataContext _toDoDataContext;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly ILogger<AssignmentController> _logger;
+        //private readonly ToDoDataContext _toDoDataContext;
         
-        public AssignmentController(IToDoRepository repository, ToDoDataContext toDoDataContext, UserManager<IdentityUser> userManager)
+        public AssignmentController(IToDoRepository repository, ILogger<AssignmentController> logger)
         {
             _repository = repository;
-            _toDoDataContext = toDoDataContext;
-            _userManager = userManager;
-            
+            _logger = logger;
+            //_toDoDataContext = toDoDataContext;
         }
         [Authorize]
-        public IActionResult Index(int? id)
+        public IActionResult Index()
         {
-            var userID = HttpContext.Session.GetString("Id");
+            /*var userID = HttpContext.Session.GetString("Id");
             var assignmentList = _repository.GetAssignments(userID);
             Assignment? assignment = id == null? null: _repository.GetById((int)id);
             
@@ -37,39 +37,70 @@ namespace ToDo.Controllers
             {
                 AssignmentList = assignmentList,
                 Assignment = assignment,
-            };
-            return View(assignmentListModel);
+            };*/
+
+            /*_logger.LogTrace("This is a Trace Log");
+            _logger.LogDebug("This is a debug log");
+            _logger.LogInformation("This is our first logging message.");
+            _logger.LogWarning("This is a warning log");
+            _logger.LogError("This is an error log");
+            _logger.LogCritical("This is a critical log");*/
+
+            
+
+            return View();
         }
 
+        [HttpGet]
         public IActionResult CreateAssignment()
         {
-            return View(new AssignmentListModel());
+            DateTime dueDateInitialize = DateTime.Now;
+            
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                return PartialView(new AssignmentCreateViewModel() { DueDate = dueDateInitialize});
+            return View(new AssignmentCreateViewModel());
         }
 
+        /*
+         * TODO: Separate the DateTime value into a two variables of date and time.
+         * 
+         * 
+         */
         [HttpPost]
-        public async Task<IActionResult> CreateAssignment(AssignmentListModel assignmentListModel)
+        public async Task<IActionResult> CreateAssignment([FromBody]AssignmentCreateViewModel model)
         {
-            ModelState.Remove("AssignmentList");
-            ModelState.Remove("Assignment");
-
+            Response.Headers.Add("is-valid", "");
+            
             if (!ModelState.IsValid)
-                return View(assignmentListModel);
+            {
+                
+                if(Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    Response.Headers["is-valid"] = "false";
+                    return PartialView(model);
+                }
+                    
+                return View(model);
+            }
 
-            var sessionResult = HttpContext.Session.GetString("Id");
-            var userID = _userManager.GetUserId(HttpContext.User);
+            Response.Headers["is-valid"] = "true";
 
-            //Debug.WriteLine(userID);
+            //string dateTime = model.Date + " " + model.Time;
 
             Assignment newAssignment = new Assignment()
             {
-                AssignmentDescription = assignmentListModel.AssignmentEditViewModel.AssignmentDescription,
-                AssignmentName = assignmentListModel.AssignmentEditViewModel.AssignmentName,
-                DueDate = assignmentListModel.AssignmentEditViewModel.DueDate,
+                AssignmentDescription = model.AssignmentDescription,
+                AssignmentName = model.AssignmentName,
+                DueDate = model.DueDate,
                 User = await _repository.getUserAsync(HttpContext.Session.GetString("Id"))
             };
 
-            _toDoDataContext.Add(newAssignment);
-            _toDoDataContext.SaveChanges();
+            _repository.CreateAssignment(newAssignment);
+
+            /*_toDoDataContext.Add(newAssignment);
+            _toDoDataContext.SaveChanges();*/
+
+            
 
             return RedirectToAction("Index", "Assignment");
         }
@@ -81,15 +112,16 @@ namespace ToDo.Controllers
             try
             {
                 Assignment model = _repository.GetById(id);
-                AssignmentListModel assignmentListModel = new AssignmentListModel();
-                assignmentListModel.AssignmentEditViewModel = new AssignmentEditViewModel();
+                AssignmentEditViewModel assignmentEditViewModel =
+                    new AssignmentEditViewModel(model.AssignmentID, model.AssignmentName, model.AssignmentDescription, model.DueDate);
                 
-                assignmentListModel.AssignmentEditViewModel.AssignmentID = model.AssignmentID;
-                assignmentListModel.AssignmentEditViewModel.AssignmentName = model.AssignmentName;
-                assignmentListModel.AssignmentEditViewModel.AssignmentDescription = model.AssignmentDescription;
-                assignmentListModel.AssignmentEditViewModel.DueDate = model.DueDate;
 
-                return View(assignmentListModel);
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    Response.Headers["is-valid"] = "false";
+                    return PartialView(assignmentEditViewModel);
+                }
+                return View(assignmentEditViewModel);
             }
             catch(Exception e)
             {
@@ -99,32 +131,38 @@ namespace ToDo.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditAssignment(AssignmentListModel assignmentToEdit)
+        public IActionResult EditAssignment([FromBody]AssignmentEditViewModel assignmentToEdit)
         {
-            ModelState.Remove("AssignmentList");
-            ModelState.Remove("Assignment");
 
+            Response.Headers.Add("is-valid", "");
             if (ModelState.IsValid)
             {
                 try
                 {
-                    Assignment newAssignment = _repository.GetById(assignmentToEdit.AssignmentEditViewModel.AssignmentID);
-                    newAssignment.AssignmentID = assignmentToEdit.AssignmentEditViewModel.AssignmentID;
-                    newAssignment.AssignmentDescription = assignmentToEdit.AssignmentEditViewModel.AssignmentDescription;
-                    newAssignment.AssignmentName = assignmentToEdit.AssignmentEditViewModel.AssignmentName;
-                    newAssignment.DueDate = assignmentToEdit.AssignmentEditViewModel.DueDate;
+                    Assignment newAssignment = _repository.GetById(assignmentToEdit.AssignmentID);
+                    newAssignment.AssignmentID = assignmentToEdit.AssignmentID;
+                    newAssignment.AssignmentDescription = assignmentToEdit.AssignmentDescription;
+                    newAssignment.AssignmentName = assignmentToEdit.AssignmentName;
+                    newAssignment.DueDate = assignmentToEdit.DueDate;
+                    Response.Headers["is-valid"] = "true";
 
-
-                    _toDoDataContext.Update(newAssignment);
-                    _toDoDataContext.SaveChanges();
+                    _repository.UpdateAssignment(newAssignment);
+                    return RedirectToAction("Index", "Assignment");
+                    /*_toDoDataContext.Update(newAssignment);
+                    _toDoDataContext.SaveChanges();*/
                 }
                 catch (Exception exception)
                 {
+                    _logger.LogWarning(exception, "There was a bad exception at [Time]", DateTime.UtcNow);
                     Debug.WriteLine($"{exception.Message} {exception.StackTrace}");
                 }
-                return RedirectToAction("Index", "Assignment");
+                
             }
-
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                Response.Headers["is-valid"] = "false";
+                return PartialView(assignmentToEdit);
+            }
             return View(assignmentToEdit);
         }
 
@@ -132,37 +170,24 @@ namespace ToDo.Controllers
         public IActionResult RemoveAssignment(int id)
         {
             Assignment assignment = _repository.GetById(id);
-            _toDoDataContext.Assignments.Remove(assignment);
-            _toDoDataContext.SaveChanges();
+            _repository.DeleteAssignment(assignment);
+            /*_toDoDataContext.Assignments.Remove(assignment);
+            _toDoDataContext.SaveChanges();*/
             return RedirectToAction("Index", "Assignment");
         }
 
-        public IActionResult AssignmentDetails(int id)
+        public async Task<IActionResult> AssignmentDetails(int id)
         {
             Assignment model = _repository.GetById(id);
-            AssignmentEditViewModel editModel = new AssignmentEditViewModel() 
-            { 
-                AssignmentDescription = model.AssignmentDescription,
-                AssignmentName = model.AssignmentName,
-                AssignmentID = model.AssignmentID,
-                DueDate = model.DueDate,
-            };
-            return View(new AssignmentListModel() { AssignmentEditViewModel = editModel});
+            AssignmentEditViewModel editModel = new AssignmentEditViewModel(model.AssignmentID, model.AssignmentName, 
+                model.AssignmentDescription, model.DueDate);
+
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                return PartialView(editModel);
+
+            return View(editModel);
         }
 
-        public IActionResult TaskList(int? id)
-        {
-            var userID = HttpContext.Session.GetString("Id");
-            var assignmentList = _repository.GetAssignments(userID);
-            Assignment? assignment = id == null ? null : _repository.GetById((int)id);
-
-            AssignmentListModel assignmentListModel = new AssignmentListModel()
-            {
-                AssignmentList = assignmentList,
-                Assignment = assignment,
-            };
-
-            return PartialView(assignmentListModel);
-        }
+        
     }
 }

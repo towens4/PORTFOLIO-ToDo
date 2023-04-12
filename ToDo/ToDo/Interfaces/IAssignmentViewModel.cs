@@ -5,5 +5,6 @@
         string AssignmentDescription { get; set; }
         string AssignmentName { get; set; }
         DateTime DueDate { get; set; }
+        
     }
 }

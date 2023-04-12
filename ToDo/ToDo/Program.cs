@@ -6,12 +6,17 @@ using ToDo.Models.DataContexts;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.ClearProviders();
+builder.Logging.AddConfiguration(builder.Configuration.GetSection("Logging"));
+builder.Logging.AddDebug();
+builder.Logging.AddConsole();
 
 builder.Services.AddMvc();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
 builder.Services.AddDbContext<ToDoDataContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ToDoConnectionString")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ToDoConnectionString")),
+    ServiceLifetime.Scoped);
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ToDoDataContext>();
 builder.Services.AddScoped<IToDoRepository, ToDoDataRespository>();

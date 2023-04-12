@@ -1,26 +1,27 @@
-﻿@model ToDo.ViewModels.AssignmentListModel;
+﻿@model ToDo.ViewModels.AssignmentEditViewModel;
+<h2>Details</h2>
 <div class="task-view">
     <div class="form-container">
-        <label asp-for="AssignmentEditViewModel.AssignmentName"></label>
+        <label asp-for="AssignmentName"></label>
         <div>
-            <input asp-for="AssignmentEditViewModel.AssignmentName" class="form-input" />
+            <input asp-for="AssignmentName" class="form-input" />
 
         </div>
     </div>
     <div class="form-container">
-        <label asp-for="AssignmentEditViewModel.AssignmentDescription"></label>
+        <label asp-for="AssignmentDescription"></label>
         <div>
-            <textarea asp-for="AssignmentEditViewModel.AssignmentDescription" class="form-input"></textarea>
+            <textarea asp-for="AssignmentDescription" class="form-input"></textarea>
 
         </div>
     </div>
     <div class="form-container">
-        <label asp-for="AssignmentEditViewModel.DueDate"></label>
+        <label asp-for="DueDate"></label>
         <div>
-            <input asp-for="AssignmentEditViewModel.DueDate" class="form-input" />
+            <input asp-for="DueDate" class="form-input" />
 
         </div>
     </div>
-    <a class="submit-a-button button-base" asp-controller="Assignment" asp-action="EditAssignment" asp-route-id="@Model.AssignmentEditViewModel.AssignmentID">Edit</a>
-    <a class="delete-a-button button-base" asp-controller="Assignment" asp-action="RemoveAssignment" asp-route-id="@Model.AssignmentEditViewModel.AssignmentID">Delete</a>
+    <a id="editAssignment" class="submit-a-button button-base my-2" data-url="@Url.Action("EditAssignment", "Assignment", new {Id = Model.AssignmentID})">Edit</a>
+    <a class="delete-a-button button-base my-2" asp-controller="Assignment" asp-action="RemoveAssignment" asp-route-id="@Model.AssignmentID">Delete</a>
 </div>

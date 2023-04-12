@@ -9,16 +9,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>HTML 5 Boilerplate</title>
+    \
     <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="/css/styles.css"/>
-    <script src="./JS/jquery.min.js"></script>
+    <link rel="stylesheet" href="~/css/flatpickr.css" />
+    <script src="~/JS/jquery.min.js"></script>
     <!--<script src="./JS/jQueryRotate.js"></script>-->
     <script src="https://kit.fontawesome.com/51b8b313be.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav" id="navbar">
                 <li class="nav-item"><a class="nav-link">Home</a></li>
                 <li class="nav-item"><a class="nav-link">About</a></li>
                 <li class="nav-item"><a class="nav-link">Assignments</a></li>
@@ -47,21 +49,26 @@
         <div class="col-2">
             <div class="row">
                 <div class="col">
-                    
-                    
-                        @await Component.InvokeAsync("TaskList")
-                    
+                        @await Component.InvokeAsync("TaskList") 
                 </div>
             </div>
         </div>
         <div class="col">
-            @RenderBody()
+            <div id ="taskView">
+
+            </div>
+            <div id="content">
+                @RenderBody()
+            </div>
+            
         </div>
     </div>
     
 
     
-    <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="./JS/scripts.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>  
+    <script src="~/JS/flatpickr.js"></script>
+    <script src="~/JS/scripts.js"></script>
+    
 </body>
 </html>

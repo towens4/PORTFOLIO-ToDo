@@ -1,18 +1,20 @@
-﻿using ToDo.Models.DataModels;
+﻿using Microsoft.VisualBasic;
+using ToDo.Models.DataModels;
 using ToDo.ViewModels;
 
 namespace ToDo.Logic
 {
     public class ClassFactory
     {
-        public static AssignmentEditViewModel CreateAssignmentEditViewModel(Assignment model)
+        public static AssignmentEditViewModel CreateAssignmentEditViewModel(int assignmentId, string assignmentName, 
+            string assignmentDescription, DateTime dueDate)
         {
             return new AssignmentEditViewModel()
             {
-                AssignmentID = model.AssignmentID,
-                AssignmentName = model.AssignmentName,
-                AssignmentDescription = model.AssignmentDescription,
-                DueDate = model.DueDate,
+                AssignmentID = assignmentId,
+                AssignmentName = assignmentName,
+                AssignmentDescription = assignmentDescription,
+                DueDate = dueDate,
             };
         }
 

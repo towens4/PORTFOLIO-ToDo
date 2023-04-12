@@ -15,7 +15,7 @@ namespace ToDo.ViewModels
         public string AssignmentDescription { get; set; }
         [DataType(DataType.DateTime)]
         public DateTime DueDate { get; set; }
-        public string StrDate { get; set; }
-        public string StrTime { get; set; }
+        public string Date { get; set; }
+        public string Time { get; set; }
     }
 }
