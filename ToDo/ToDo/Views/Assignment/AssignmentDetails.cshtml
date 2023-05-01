@@ -4,22 +4,22 @@
     <div class="form-container">
         <label asp-for="AssignmentName"></label>
         <div>
-            <input asp-for="AssignmentName" class="form-input" />
-
+            <!--<input asp-for="AssignmentName" class="form-input" />-->
+            <p>@Html.DisplayFor(Model => Model.AssignmentName)</p>
         </div>
     </div>
     <div class="form-container">
         <label asp-for="AssignmentDescription"></label>
         <div>
-            <textarea asp-for="AssignmentDescription" class="form-input"></textarea>
-
+            <!--<textarea asp-for="AssignmentDescription" class="form-input"></textarea>-->
+            <p>@Html.DisplayFor(Model => Model.AssignmentDescription)</p>
         </div>
     </div>
     <div class="form-container">
         <label asp-for="DueDate"></label>
         <div>
-            <input asp-for="DueDate" class="form-input" />
-
+            <!--<input asp-for="DueDate" class="form-input" />-->
+            <span>@Html.DisplayFor(Model => Model.DueDate)</span>
         </div>
     </div>
     <a id="editAssignment" class="submit-a-button button-base my-2" data-url="@Url.Action("EditAssignment", "Assignment", new {Id = Model.AssignmentID})">Edit</a>

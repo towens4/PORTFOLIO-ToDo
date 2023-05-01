@@ -9,7 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>HTML 5 Boilerplate</title>
-    \
     <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="/css/styles.css"/>
     <link rel="stylesheet" href="~/css/flatpickr.css" />
@@ -45,22 +44,24 @@
             </div>
         </div>
     </nav>
-    <div class="row">
-        <div class="col-2">
-            <div class="row">
-                <div class="col">
-                        @await Component.InvokeAsync("TaskList") 
+    
+    <div class="container">
+        <div class="row">
+           
+            <div class="col-xl-2 col-lg-5">
+                <div class="row">
+                    <div class="col-sm-12" style="border:solid; border-radius:1px">
+                            @await Component.InvokeAsync("TaskList") 
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col">
-            <div id ="taskView">
-
-            </div>
-            <div id="content">
-                @RenderBody()
-            </div>
+            <div class="col-xl-10">
             
+                <div id="content">
+                    @RenderBody()
+                </div>
+            
+            </div>
         </div>
     </div>
     

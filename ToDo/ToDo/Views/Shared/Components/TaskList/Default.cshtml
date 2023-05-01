@@ -22,37 +22,44 @@
 else if (Model.AssignmentList.Count() > 0 && signUser.IsSignedIn(User))
 {
 
-    <button id="createAssignment" data-url="@Url.Action("CreateAssignment", "Assignment")" class="btn btn-primary my-2">Create</button>
-    <select class="task-sort">
-        <option>Sort by...</option>
-        <option value="1">Due Date</option>
-        <option value="2">A-Z</option>
-        <option value="3">Z-A</option>
-    </select>
+    <div class="sort-container mx-2">
+        <button id="createAssignment" data-url="@Url.Action("CreateAssignment", "Assignment")" class="btn btn-primary my-2">Create</button>
+        <select class="task-sort">
+            <option>Sort by...</option>
+            <option value="1">Due Date</option>
+            <option value="2">A-Z</option>
+            <option value="3">Z-A</option>
+        </select>
+    </div>
     <div class="task-container">
         <div class="task-list">
+            
+            <div class="row task-row">
+                
             @foreach (var Model in Model.AssignmentList)
             {
+                 <div class="col-12 d-flex justify-content-center task-col-holder">
+                    
+                    <a id="taskHolder" class="task-anchor d-lg w-50" data-url="@Url.Action("AssignmentDetails", "Assignment", new {Id = Model.AssignmentID})">
+                        <!--
+                            The size of the card is causing the clippng fix
+                        -->
+                        <div class="card my-2 task-holder cd" id="card">
+                            <div class="card-body">
+                                <h5 class="card-title h5" id="assignmentName">@Model.AssignmentName</h5>
+                                <div>
+                                    <p id="assignmentDate">@Model.StrDate</p>
+                                    <p id="assignmentTime">@Model.StrTime</p>
+                                </div>
 
-                <a id="taskHolder" class="task-anchor" data-url="@Url.Action("AssignmentDetails", "Assignment", new {Id = Model.AssignmentID})">
-                    <div class="card my-2 task-holder cd active" style="width: 18rem;" id="card">
-                        <div class="card-body">
-                            <h5 class="card-title" id="assignmentName">@Model.AssignmentName</h5>
-                            <div>
-                                <p id="assignmentDate">@Model.StrDate</p>
-                                <p id="assignmentTime">@Model.StrTime</p>
-                            </div>
-
-                            <i class="fa-solid fa-angle-up"></i>
-                            <div class="task-desc">
-                                <p id="assignmentDescription" class="card-text">@Model.AssignmentDescription</p>
-                                <a id="editAssignment" class="submit-a-button button-base my-2" data-url="@Url.Action("EditAssignment", "Assignment", new {Id = Model.AssignmentID})">Edit</a>
-                                <a class="delete-a-button button-base my-2" asp-controller="Assignment" asp-action="RemoveAssignment" asp-route-id="@Model.AssignmentID">Delete</a>
+                            
+                           
                             </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                 </div>
             }
+            </div>
         </div>
 
 

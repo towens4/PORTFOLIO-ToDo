@@ -18,7 +18,7 @@ public DateTime? DateAssigned { get; set; } = DateTime.Now;*/
 
         }
 
-        public AssignmentEditViewModel(int assignmentId, string assignmentDescription, string assignmentName, DateTime dueDate)
+        public AssignmentEditViewModel(int assignmentId, string assignmentName, string assignmentDescription, DateTime dueDate)
         {
             AssignmentID = assignmentId;
             AssignmentDescription = assignmentDescription;

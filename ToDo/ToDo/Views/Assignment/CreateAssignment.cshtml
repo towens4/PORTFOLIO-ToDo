@@ -2,7 +2,7 @@
 <h2>Create</h2>
 <form id="createFormSubmit" onsubmit="return false;" data-url="/Assignment/CreateAssignment" class="task-view" method="post">
     
-    @Html.ValidationSummary();
+    @Html.ValidationSummary()
     <div class="form-container">
         <label asp-for="AssignmentName"></label>
         <div>
@@ -24,8 +24,6 @@
             <span asp-validation-for="DueDate"></span>
         </div>
     </div>
-
-    <!--//await Html.PartialAsync("_TaskInput")-->
 
     <button id="createSubmit" data-url="@Url.Action("CreateAssignment", "Assignment")" type="submit" class="btn btn-primary">Submit</button>
 </form>

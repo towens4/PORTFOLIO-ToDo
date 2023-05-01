@@ -42,21 +42,7 @@ function convertDateTime(dateTimeStr) {
 }
 
 
-const sortSwitch = {
-    "1": (value, list) => {
-        list.sort(function (a, b) { return getTargetElement(b, value).localeCompare(getTargetElement(a, value)); })
-        rearrageHTML(list)
-    },
-    "2": (value, list) => {
-        list.sort(function (a, b) { return getTargetElement(a, value).localeCompare(getTargetElement(b, value)) })
-        rearrageHTML(list)
-    },
-    "3": (value, list) => {
-        list.sort(function (a, b) { return getTargetElement(b, value).localeCompare(getTargetElement(a, value)) })
-        rearrageHTML(list)
-    },
-    "default": console.log("Unknown")
-}
+
 
 const toggleAngle = {
     "fa-solid fa-angle-up": (element) => {
@@ -72,6 +58,20 @@ const toggleAngle = {
 
 
 $(document).ready(function () {
+
+    $(window).resize(function () {
+        console.log($(window).width());
+    })
+
+    function matchSortPosition() {
+        var createBtnPadTop = $('#createAssignment').outerHeight();
+
+        $('.task-sort').outerHeight(createBtnPadTop);
+
+        console.log(createBtnPadTop);
+
+    }
+    matchSortPosition()
 
     config = {
         enableTime: true,
@@ -89,35 +89,15 @@ $(document).ready(function () {
             success: function (response) {
                 $('#taskIndexView').html(response);
                 const handler = new DomHandler();
-                handler.getDateTags(document.getElementsByTagName("input")).flatpickr(config);
-                //document.getElementById("assignmentCreateDate").flatpickr(config);
-                console.log(response)
+                if (!url.includes("/Assignment/AssignmentDetails"))
+                    handler.getDateTags(document.getElementsByTagName("input")).flatpickr(config);
+                
+                //console.log(response)
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log('error: ', textStatus, errorThrown)
             }
         });
-    }
-
-    function AJAXPOSTXML(formData, url) {
-        console.log("About to initiate Post request");
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', url);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                console.log(xhr.responseText);
-                $("#taskIndexView").html(xhr.responseText);
-            }
-            else {
-                console.log('POST error: ' + xhr.status);
-            }
-        };
-        xhr.onerror = function () {
-            console.log('POST error: ', textStatus, errorThrown);
-        };
-        xhr.send(JSON.stringify(formData));
     }
 
     function PostAJAX(formData, url) {
@@ -173,29 +153,10 @@ $(document).ready(function () {
         GenerateAjax($(this).data('url'))
     })
 
-    /*flatpickr("#assignmentCreateTime", {
-        enableTime: true,
-        noCalendar: true,
-        dateFormat: "h:i k",
-        time_24Hour: false,
-        amPm: true
-    })*/
-
-    
-   // $(".time-select").flatpickr(config);
-    
-
     $(document).on('click', "#createSubmit", function () {
         var url = $(this).data('url');
-        //var model = $("#createFormSubmit");
-
-        //console.log("Form Data: " + model);
-        //document.getElementById("assignmentName").innerHTML();
+        
         var name = $('#assignmentCreateName').val();
-
-        var timeType = $("#timeType").val();
-
-        var time = $("#assignmentCreateTime").val() + " " + timeType
         
         console.log("name: " + name);
 
@@ -207,14 +168,7 @@ $(document).ready(function () {
 
         console.log(model);
 
-        var jsonModel = JSON.stringify({
-            model: {
-                'AssignmentName': $("#assignmentName").val(),
-                'AssignmentDescription': $("#assignmentDescription").val(),
-                'DueDate': $("#assignmentDate").val()
-            }
-        })
-
+ 
         $.ajax({
             type: 'POST',
             url: url,
@@ -231,7 +185,7 @@ $(document).ready(function () {
                     $("#taskIndexView").empty();
                     window.location.replace(baseUrl);
                 }
-                //Window.Location.reload(true);
+                
 
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -240,9 +194,10 @@ $(document).ready(function () {
 
         });
 
-        //PostAJAX(model, url);
-        //AJAXPOSTXML(formData, url)
+        
     });
+
+   
 
     $(document).on('click', "#editSubmit", function () {
         var url = $(this).data('url');
@@ -269,7 +224,7 @@ $(document).ready(function () {
                     $("#taskIndexView").empty();
                     window.location.replace(baseUrl);
                 }
-                //Window.Location.reload(true);
+                
 
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -278,75 +233,132 @@ $(document).ready(function () {
         })
 
 
-        $("#formSubmit").submit(function (event) {
-            event.preventDefault();
 
-            var url = $(this).data('url');
-            var formData = $(this).serialize();
+    });
 
-            var model = {
-                AssignmentName: $('assignmentName').val(),
-                AssignmentDescription: $('assignmentDescription'),
-                DueDate: $('assignmentDate').val()
-            }
 
-            console.log("Form Data: " + formData);
+    $("#formSubmit").submit(function (event) {
+        event.preventDefault();
 
-            PostAJAX(formData, url)
-        })
+        var url = $(this).data('url');
+        var formData = $(this).serialize();
 
-        /*$('.task-holder').on("click", function () {
-            console.log("The anchor is fired");
-            var url = $(this).attr('href');
-            console.log(url)
-            $('#taskView').load(url);
-        })*/
+        var model = {
+            AssignmentName: $('assignmentName').val(),
+            AssignmentDescription: $('assignmentDescription'),
+            DueDate: $('assignmentDate').val()
+        }
 
-        $('.fa-arrow-down').on("click", function () {
-            $(this).toggleClass('fa-solid fa-angle-up');
-        })
+        console.log("Form Data: " + formData);
 
-        $('.task-holder').on("click", function () {
-            const icon = $(this).find('i').attr("class");
-            toggleAngle[icon]($(this).find('i'));
-            $('.task-desc', this).toggle();
-        })
+        PostAJAX(formData, url)
+    })
 
-        $(".task-sort").on("change", function () {
-            const value = $(this).val();
-            var list = $('.task-holder').get();
+    /*$('.task-holder').on("click", function () {
+        console.log("The anchor is fired");
+        var url = $(this).attr('href');
+        console.log(url)
+        $('#taskView').load(url);
+    })*/
 
-            sortSwitch[value](value, list) //|| sortSwitch["default"]();
+    
 
-        });
+    /*function setCreateButtonPosition()
+    {
+        var card = $('#taskHolder').position().left
+        var cardList = $('.task-list')
+        var btn = $('.sort-container')
 
-        $(".cd").on("click", function () {
-            $('.cd.active').removeClass('active');
-            $(this).addClass('active');
-        });
+        console.log("total position: " + (cardList.offset().left + card))
+        console.log("btn pos: " + btn.position().left )
 
+        btn.css('left', cardList.offset().left + card + 'px')
+    }
+
+    setCreateButtonPosition()
+
+    $(window).on('resize', function () {
+        console.log("adjuested")
+        setCreateButtonPosition()
+    });*/
+
+    $('.fa-arrow-down').on("click", function () {
+        $(this).toggleClass('fa-solid fa-angle-up');
+    })
+
+    /*$('.task-holder').on("click", function () {
+        const icon = $(this).find('i').attr("class");
+        toggleAngle[icon]($(this).find('i'));
+        $('.task-desc', this).toggle();
+    })*/
+
+    const sortSwitch = {
+        "1": (value, list, parent) => {
+            list.sort(function (a, b) { return getTargetElement(b, value).localeCompare(getTargetElement(a, value)); })
+            const newList = $('<div class="task-col-holder"></div>').append(list);
+            console.log(list.find("#assignmentName"));
+            parent.empty().append(newList);
+            //rearrageHTML(list)
+        },
+        "2": (value, list, parent) => {
+            list.sort(function (a, b) { return getTargetElement(a, value).localeCompare(getTargetElement(b, value)) })
+            const newList = $('<div class="task-col-holder"></div>').append(list);
+            console.log(list.find("#assignmentName"));
+            parent.empty().append(newList);
+            //rearrageHTML(list)
+        },
+        "3": (value, list, parent) => {
+            list.sort(function (a, b) { return getTargetElement(b, value).localeCompare(getTargetElement(a, value)) })
+            const newList = $('<div class="task-col-holder"></div>').append(list);
+            console.log(list.find("#assignmentName"));
+            parent.empty().append(newList);
+            //rearrageHTML(list)
+        },
+        "default": console.log("Unknown")
+    }
+
+    $(".task-sort").on("change", function () {
+        const value = $(this).val();
+
+        const row = $('.task-row')
+        var cards = row.find('.task-col-holder');
+        console.log(cards)
+        sortSwitch[value](value, cards, row);
+        
+
+        //sortSwitch[value](value, list) //|| sortSwitch["default"]();
+
+    });
+
+    function getTargetElement(element, value) {
+        
+        const index = value == 1 ? 0 : 1;
+        if (index == 0) {
+            //get due date elements by id
+            const date = $(element).find("#assignmentDate").html();
+            const time = $(element).find("#assignmentTime").html();
+            console.log("Date: " + date + " " + time)
+            return date + " " + time;
+            
+        }
+
+        const assignmentName = $(element).find("#assignmentName").html();
+        console.log("assignment name:" +  assignmentName)
+        return $(element).find("#assignmentName").html();
+    }
+
+    function rearrageHTML(elementList) {
+        for (var i = 0; i < elementList.length - 1; i++) {
+            elementList[i].parentNode.appendChild(elementList[i]);
+        }
+    }
+
+
+
+    //Changes card color if Active
+    $(".cd").on("click", function () {
+        $('.cd').removeClass('active');
+        $(this).addClass('active');
     });
 })
 
-function getTargetElement(element, value)
-{
-    const index = value == 0 ? 1 : 0;
-    if (index == 0)
-    {
-        //get due date elements by id
-        const date = $("#assignmentDate");
-        const time = $("#assignmentTime");
-        return date + " " + time;
-        console.log(element.firstElementChild.children[1]);
-    }
-    console.log(index)
-    return $("#assignmentDescription");
-}
-
-function rearrageHTML(elementList)
-{
-    for (var i = 0; i < elementList.length - 1; i++)
-    {
-        elementList[i].parentNode.appendChild(elementList[i]);
-    }
-}

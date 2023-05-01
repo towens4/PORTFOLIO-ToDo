@@ -1,27 +1,55 @@
-﻿* {
-    color: hsla(0, 0%, 91%, 1);
+﻿:root {
+    --text-color: #000000;
+    
+    --main-color: #fff7d6;
+    --secondary-color: #00c6c3;
+    --other-color: #1c1f3b
+}
+
+* {
+    color: var(--text-color);
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
 }
 
 body {
-    background: hsla(234, 36%, 17%, 1)
+    /*background: hsla(234, 36%, 17%, 1)*/
+    background: var(--main-color)
 }
 
+.cd {
+    width: 10rem;
+}
+
+@media screen and (max-width: 996px){
+ .cd{
+     width: 18em;
+ }
+}
+
+select {
+    font-size: 16px;
+    background-color: hsl(304, 23%, 76%);
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 0.5em;
+}
 #navbar li a{
     color:inherit
 }
 
 .cd {
-    background-color: hsla(39, 100%, 50%, 1);
+    /*background-color: hsla(54, 36%, 17%, 1);*/
+    background-color: var(--secondary-color)
 }
 
     .cd:hover {
-        background-color: hsla(39, 100%, 50%, 0.7);
+        background-color: hsla(54, 36%, 17%, 0.7);
     }
 
-.cd.active {
-    background-color: hsla(39, 100%, 50%, 0.7);
-}
+    .cd.active {
+        background-color: hsla(54, 36%, 17%, 0.7);
+    }
 
 .form-input{
     border-radius: 50px;
@@ -68,10 +96,16 @@ a {
 
 .task-anchor {
     color:black;
+    float: right;
 }
 
 a{
+    
     color:inherit;
+}
+
+.sort-container{
+    
 }
 
 .task-holder:hover{

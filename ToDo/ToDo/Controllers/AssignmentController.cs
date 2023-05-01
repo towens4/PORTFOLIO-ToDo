@@ -18,35 +18,17 @@ namespace ToDo.Controllers
     {
         private readonly IToDoRepository _repository;
         private readonly ILogger<AssignmentController> _logger;
-        //private readonly ToDoDataContext _toDoDataContext;
+        
         
         public AssignmentController(IToDoRepository repository, ILogger<AssignmentController> logger)
         {
             _repository = repository;
             _logger = logger;
-            //_toDoDataContext = toDoDataContext;
+            
         }
         [Authorize]
         public IActionResult Index()
         {
-            /*var userID = HttpContext.Session.GetString("Id");
-            var assignmentList = _repository.GetAssignments(userID);
-            Assignment? assignment = id == null? null: _repository.GetById((int)id);
-            
-            AssignmentListModel assignmentListModel = new AssignmentListModel()
-            {
-                AssignmentList = assignmentList,
-                Assignment = assignment,
-            };*/
-
-            /*_logger.LogTrace("This is a Trace Log");
-            _logger.LogDebug("This is a debug log");
-            _logger.LogInformation("This is our first logging message.");
-            _logger.LogWarning("This is a warning log");
-            _logger.LogError("This is an error log");
-            _logger.LogCritical("This is a critical log");*/
-
-            
 
             return View();
         }
@@ -70,32 +52,40 @@ namespace ToDo.Controllers
         public async Task<IActionResult> CreateAssignment([FromBody]AssignmentCreateViewModel model)
         {
             Response.Headers.Add("is-valid", "");
-            
-            if (!ModelState.IsValid)
+            try
             {
-                
-                if(Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+
+
+                if (!ModelState.IsValid)
                 {
-                    Response.Headers["is-valid"] = "false";
-                    return PartialView(model);
+
+                    if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                    {
+                        Response.Headers["is-valid"] = "false";
+                        return PartialView(model);
+                    }
+
+                    return View(model);
                 }
-                    
-                return View(model);
+
+                Response.Headers["is-valid"] = "true";
+
+                //string dateTime = model.Date + " " + model.Time;
+
+                Assignment newAssignment = new Assignment()
+                {
+                    AssignmentDescription = model.AssignmentDescription,
+                    AssignmentName = model.AssignmentName,
+                    DueDate = model.DueDate,
+                    User = await _repository.getUserAsync(HttpContext.Session.GetString("Id"))
+                };
+
+                _repository.CreateAssignment(newAssignment);
             }
-
-            Response.Headers["is-valid"] = "true";
-
-            //string dateTime = model.Date + " " + model.Time;
-
-            Assignment newAssignment = new Assignment()
+            catch(Exception e)
             {
-                AssignmentDescription = model.AssignmentDescription,
-                AssignmentName = model.AssignmentName,
-                DueDate = model.DueDate,
-                User = await _repository.getUserAsync(HttpContext.Session.GetString("Id"))
-            };
-
-            _repository.CreateAssignment(newAssignment);
+                _logger.LogWarning(e, "There was a bad exception in the CreateAssignment Action");
+            }
 
             return RedirectToAction("Index", "Assignment");
         }
@@ -120,7 +110,7 @@ namespace ToDo.Controllers
             }
             catch(Exception e)
             {
-                Debug.WriteLine(e.Message);
+                _logger.LogWarning(e, "There was a bad exception in the EditAssignment Action");
             }
             return RedirectToAction("Index");
         }
