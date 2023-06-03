@@ -21,7 +21,10 @@
 }
 else if (Model.AssignmentList.Count() > 0 && signUser.IsSignedIn(User))
 {
-
+    <div class="button-group">
+        <a class="button-base list-switch list-switch-active" data-type="incomplete">Current Todo</a>
+        <a class="button-base list-switch" data-type="completed">Completed</a>
+    </div>
     <div class="sort-container mx-2">
         <button id="createAssignment" data-url="@Url.Action("CreateAssignment", "Assignment")" class="btn btn-primary my-2">Create</button>
         <select class="task-sort">
@@ -38,13 +41,16 @@ else if (Model.AssignmentList.Count() > 0 && signUser.IsSignedIn(User))
                 
             @foreach (var Model in Model.AssignmentList)
             {
-                 <div class="col-12 d-flex justify-content-center task-col-holder">
+                 <div class="col-12 task-col-holder">
                     
                     <a id="taskHolder" class="task-anchor d-lg w-50" data-url="@Url.Action("AssignmentDetails", "Assignment", new {Id = Model.AssignmentID})">
-                        <!--
-                            The size of the card is causing the clippng fix
-                        -->
+                        
                         <div class="card my-2 task-holder cd" id="card">
+                            <!--<div class="completed-icon">
+                                <div class="tick-container">
+                                    <i class="gg-check"></i>
+                                </div>
+                            </div>-->
                             <div class="card-body">
                                 <h5 class="card-title h5" id="assignmentName">@Model.AssignmentName</h5>
                                 <div>
@@ -52,8 +58,8 @@ else if (Model.AssignmentList.Count() > 0 && signUser.IsSignedIn(User))
                                     <p id="assignmentTime">@Model.StrTime</p>
                                 </div>
 
-                            
-                           
+                            <p id="assignmentCompletion" hidden>@Model.Completed</p>
+                            <p id="assignmentDetailId" data-id="@Model.AssignmentID"></p>
                             </div>
                         </div>
                     </a>

@@ -22,6 +22,16 @@
             <span>@Html.DisplayFor(Model => Model.DueDate)</span>
         </div>
     </div>
-    <a id="editAssignment" class="submit-a-button button-base my-2" data-url="@Url.Action("EditAssignment", "Assignment", new {Id = Model.AssignmentID})">Edit</a>
-    <a class="delete-a-button button-base my-2" asp-controller="Assignment" asp-action="RemoveAssignment" asp-route-id="@Model.AssignmentID">Delete</a>
+    <div class="form-container completed-container">
+        <label asp-for="Completed"></label>
+        <div class="completed-form">
+            <div class="completed-notification" data-notif="moved"></div>
+            <input id="assignmentEditComplete" asp-for="Completed" type="checkbox" class="form-input" data-id="@Model.AssignmentID"/>
+            <span asp-validation-for="Completed"></span>
+        </div>
+    </div>
+    <div class="submit-container my-4">
+        <a id="editAssignment" class="submit-a-button button-base my-2" data-url="@Url.Action("EditAssignment", "Assignment", new {Id = Model.AssignmentID})">Edit</a>
+        <a class="delete-a-button button-base my-2" asp-controller="Assignment" asp-action="RemoveAssignment" asp-route-id="@Model.AssignmentID">Delete</a>
+    </div>
 </div>

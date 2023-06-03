@@ -17,11 +17,16 @@ namespace ToDo.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var userID = HttpContext.Session.GetString("Id");
-            //var assignmentList = _repository.GetAssignmentsAsync(userID);
-            IEnumerable<Assignment> assignments = _repository.GetAssignments(userID);
+            
+            IEnumerable<Assignment> assignments = _repository.GetUncompletedAssignments(userID);
             if (!HttpContext.User.Identity.IsAuthenticated)
             {
                 assignments =  new List<Assignment>();
+            }
+
+            if (Request.Headers["completed-flag"] == "true")
+            {
+                assignments = _repository.GetCompletedAssignments(userID);
             }
 
             AssignmentListModel assignmentListModel = new AssignmentListModel() 

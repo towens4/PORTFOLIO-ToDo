@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="/css/styles.css"/>
     <link rel="stylesheet" href="~/css/flatpickr.css" />
-    <script src="~/JS/jquery.min.js"></script>
+    
     <!--<script src="./JS/jQueryRotate.js"></script>-->
     <script src="https://kit.fontawesome.com/51b8b313be.js" crossorigin="anonymous"></script>
 </head>
@@ -50,7 +50,7 @@
            
             <div class="col-xl-2 col-lg-5">
                 <div class="row">
-                    <div class="col-sm-12" style="border:solid; border-radius:1px">
+                    <div id="taskListContainer" class="col-sm-12">
                             @await Component.InvokeAsync("TaskList") 
                     </div>
                 </div>
@@ -66,9 +66,11 @@
     </div>
     
 
-    
+    <script src="~/JS/jquery.min.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>  
     <script src="~/JS/flatpickr.js"></script>
+    <script src="~/JS/TestFile.js"></script>
+    <script src="~/JS/FormHandler.js"></script>
     <script src="~/JS/scripts.js"></script>
     
 </body>

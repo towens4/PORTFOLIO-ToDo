@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "frG5HcjuI6F7co5FZUxtVNYf5nR9p3MZ2ppd52ye1V0=",
+  "Hash": "mZ1pScOzoWRfm0aiLjUjczGrXLVp36u8KM5KTh/fXqE=",
   "Source": "ToDo",
   "BasePath": "_content/ToDo",
   "Mode": "Default",
@@ -102,6 +102,23 @@
       "OriginalItemSpec": "wwwroot\\JS\\flatpickr.min.js"
     },
     {
+      "Identity": "C:\\Users\\timow\\Documents\\GitHub\\PORTFOLIO-ToDo\\ToDo\\ToDo\\wwwroot\\JS\\FormHandler.js",
+      "SourceId": "ToDo",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\timow\\Documents\\GitHub\\PORTFOLIO-ToDo\\ToDo\\ToDo\\wwwroot\\",
+      "BasePath": "_content/ToDo",
+      "RelativePath": "JS/FormHandler.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\JS\\FormHandler.js"
+    },
+    {
       "Identity": "C:\\Users\\timow\\Documents\\GitHub\\PORTFOLIO-ToDo\\ToDo\\ToDo\\wwwroot\\JS\\jquery.min.js",
       "SourceId": "ToDo",
       "SourceType": "Discovered",
@@ -168,6 +185,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\JS\\scripts.js"
+    },
+    {
+      "Identity": "C:\\Users\\timow\\Documents\\GitHub\\PORTFOLIO-ToDo\\ToDo\\ToDo\\wwwroot\\JS\\TestFile.js",
+      "SourceId": "ToDo",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\timow\\Documents\\GitHub\\PORTFOLIO-ToDo\\ToDo\\ToDo\\wwwroot\\",
+      "BasePath": "_content/ToDo",
+      "RelativePath": "JS/TestFile.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\JS\\TestFile.js"
     },
     {
       "Identity": "C:\\Users\\timow\\Documents\\GitHub\\PORTFOLIO-ToDo\\ToDo\\ToDo\\wwwroot\\lib\\bootstrap\\css\\bootstrap.css",

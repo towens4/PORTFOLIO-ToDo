@@ -6,6 +6,8 @@ namespace ToDo.Interfaces
     public interface IToDoRepository
     {
         public List<Assignment> GetAssignments(string userId);
+        public List<Assignment> GetUncompletedAssignments(string userId);
+        public List<Assignment> GetCompletedAssignments(string userId);
         public Assignment GetById(int id);
         public Task<IdentityUser> getUserAsync(string id);
         public Task<List<Assignment>> GetAssignmentsAsync(string userId);

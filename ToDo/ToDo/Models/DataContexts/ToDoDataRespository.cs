@@ -51,6 +51,37 @@ namespace ToDo.Models.DataContexts
             return list;
         }
 
+        public List<Assignment> GetCompletedAssignments(string userId)
+        {
+            DateTime time;
+            List<Assignment> listCompare = _toDoDataContext.Assignments.Where(id => (id.User.Id.Equals(userId)) && (id.Completed.Equals(true))).ToList();
+
+            List<Assignment> list = listCompare.IsNullOrEmpty() ? new List<Assignment>() : listCompare;
+            foreach (Assignment item in list)
+            {
+                time = DateTime.Parse(item.DueDate.ToString());
+                item.StrDate = item.DueDate.Date.ToString("d");
+                item.StrTime = time.ToString("h:mm tt");
+            }
+            return list;
+            
+        }
+
+        public List<Assignment> GetUncompletedAssignments(string userId)
+        {
+            DateTime time;
+            List<Assignment> listCompare = _toDoDataContext.Assignments.Where(id => (id.User.Id.Equals(userId)) && (id.Completed.Equals(false))).ToList();
+
+            List<Assignment> list = listCompare.IsNullOrEmpty() ? new List<Assignment>() : listCompare;
+            foreach (Assignment item in list)
+            {
+                time = DateTime.Parse(item.DueDate.ToString());
+                item.StrDate = item.DueDate.Date.ToString("d");
+                item.StrTime = time.ToString("h:mm tt");
+            }
+            return list;
+        }
+
         public Assignment GetById(int id)
         {
             var context = _toDoDataContext;
@@ -86,5 +117,7 @@ namespace ToDo.Models.DataContexts
             _toDoDataContext.SaveChanges();
 
         }
+
+        
     }
 }

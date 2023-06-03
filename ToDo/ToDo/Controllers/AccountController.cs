@@ -20,16 +20,16 @@ namespace ToDo.Controllers
         }
         public IActionResult Register()
         {
-            return View(new AssignmentListModel());
+            return View(new RegisterViewModel());
         }
         [HttpPost]
-        public async Task<IActionResult> Register(AssignmentListModel register)
+        public async Task<IActionResult> Register(RegisterViewModel register)
         {
             if (!ModelState.IsValid)
                 return View(register);
 
-            var user = new IdentityUser { UserName = register.RegisterModel.Email, Email= register.RegisterModel.Email };
-            var result = await _userManager.CreateAsync(user, register.RegisterModel.Password);
+            var user = new IdentityUser { UserName = register.Email, Email= register.Email };
+            var result = await _userManager.CreateAsync(user, register.Password);
 
             if (result.Succeeded)
             {
@@ -49,18 +49,18 @@ namespace ToDo.Controllers
         public IActionResult Login()
         {
 
-            return View(new AssignmentListModel());
+            return View(new LoginViewModel());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(AssignmentListModel login)
+        public async Task<IActionResult> Login(LoginViewModel login)
         {
             ModelState.Remove("AssignmentList");
             if (!ModelState.IsValid)
                 return View();
 
-            var userTask = await _userManager.FindByNameAsync(login.LoginModel.Email);
-            var result = await _signInManager.PasswordSignInAsync(login.LoginModel.Email, login.LoginModel.Password, false, false);
+            var userTask = await _userManager.FindByNameAsync(login.Email);
+            var result = await _signInManager.PasswordSignInAsync(login.Email, login.Password, false, false);
 
             if (result.Succeeded)
             {

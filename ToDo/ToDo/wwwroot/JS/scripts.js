@@ -59,19 +59,100 @@ const toggleAngle = {
 
 $(document).ready(function () {
 
+    var taskCompletedBackup;
+    
+
+    // Initialize event logger
+    eventLogger.initialize();
+
+    
+
+    dueDateHandler()
+
     $(window).resize(function () {
         console.log($(window).width());
     })
 
-    function matchSortPosition() {
-        var createBtnPadTop = $('#createAssignment').outerHeight();
+    function dueDateHandler() {
+        
+        if ($('.task-anchor').length) {
 
-        $('.task-sort').outerHeight(createBtnPadTop);
+            $('.task-anchor').each(function (index, card) {
+                // Get the due date from the card
+                var dateParts = $(card).find('#assignmentDate').html().split('/');
+                var dueDate = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
+                var isCompleted = $(card).find("#assignmentCompletion").html()
+                
 
-        console.log(createBtnPadTop);
-
+                // Check if the task is overdue, due today, or not due yet
+                var today = new Date();
+                if (dueDate < today)
+                {
+                    console.log("Task is overdue");
+                    $(card).find(".cd").toggleClass("overdue");
+                    
+                }
+                else if (dueDate.getTime() === today.getTime())
+                {
+                    console.log("Task is due today");
+                }
+                else
+                {
+                    if ($(card).find(".cd").hasClass("overdue")) {
+                        $(card).find(".cd").toggleClass("overdue");
+                    }
+                    console.log("Task is not due yet");
+                }
+            });
+        }
     }
-    matchSortPosition()
+
+    
+
+        $(document).on("click", ".list-switch", function () {
+            var listType = $(this).data("type");
+            const selectedElement = $(this)
+            const buttons = $('.list-switch');
+            console.log(buttons)
+            
+            $(buttons).removeClass("list-switch-active");
+            $(selectedElement).addClass("list-switch-active");
+
+            const isCompleted = listType == "completed" ? true : false;
+
+            AJAXRequest('GET', '/Assignment/UpdateListComponent', null, { "completed-flag": isCompleted }, function (response, status, jqXHR) {
+                const taskContainer = $('#taskListContainer')
+                $(taskContainer).html(response);
+                const listOptions = taskContainer.find('.list-switch');
+                console.log(listOptions)
+                listOptions.removeClass('list-switch-active');
+                //isCompleted === true
+                $(listOptions).each(function () {
+                    const status = $(this).data('type');
+                    if (isCompleted === true)
+                        $('[data-type="completed"]').addClass('list-switch-active')
+                    else
+                        $('[data-type="incomplete"]').addClass('list-switch-active')
+                })
+
+                dueDateHandler()
+                
+                const tempButtons = buttons;
+                const tempCurrent = selectedElement;
+
+                
+                $(buttons).removeClass("list-switch-active")
+                
+                $(selectedElement).addClass("list-switch-active");
+                    
+            }, function (jqXHR, textStatus, errorThrown) {
+                console.log('error: ', textStatus, errorThrown)
+            })
+            
+
+         
+        })
+
 
     config = {
         enableTime: true,
@@ -81,44 +162,20 @@ $(document).ready(function () {
     }
 
     var baseUrl = "https://localhost:7063/";
+
     
+
     function GetPageByAJAX(url) {
-        $.ajax({
-            url: url,
-            method: 'GET',
-            success: function (response) {
-                $('#taskIndexView').html(response);
-                const handler = new DomHandler();
-                if (!url.includes("/Assignment/AssignmentDetails"))
-                    handler.getDateTags(document.getElementsByTagName("input")).flatpickr(config);
-                
-                //console.log(response)
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log('error: ', textStatus, errorThrown)
-            }
-        });
-    }
 
-    function PostAJAX(formData, url) {
-        console.log("About to initate Post request")
-        $.ajax({
-            type: 'POST',
-            url: url,
-            contentType: 'application/json',
-            headers: {
-                "X-Requested-With": "XMLHttpRequest"
-            },
-            data: JSON.stringify(formData),
-            success: function (result) {
-                //console.log(result);
-                $("#taskIndexView").html(result);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log('POST error: ', textStatus, errorThrown, jqXHR)
-            }
+        AJAXRequest('GET', url, null, null, function (response, status, jqXHR) {
+            $('#taskIndexView').html(response);
+            if (!url.includes("/Assignment/AssignmentDetails"))
+                handler.getDateTags(document.getElementsByTagName("input")).flatpickr(config);
 
+        }, function (jqXHR, textStatus, errorThrown) {
+            console.log('error: ', textStatus, errorThrown)
         });
+        
     }
 
     $(document).on("click", function () {
@@ -129,18 +186,14 @@ $(document).ready(function () {
     function GenerateAjax(url) {
 
         console.log(url)
-        /*$('#taskView').load(url);*/
+        
         GetPageByAJAX(url)
     }
 
     $(document).on("click", ".task-anchor", function () {
         console.log("The anchor is fired");
-        console.log("");
-        /*if (docUrl.includes("AssignmentDetails"))
-        {
-            $('#content').toggle();
-            
-        }*/
+        
+       
         GenerateAjax($(this).data('url'));
 
     })
@@ -158,41 +211,30 @@ $(document).ready(function () {
         
         var name = $('#assignmentCreateName').val();
         
-        console.log("name: " + name);
+        console.log($("#assignmentCreateComplete").is(":checked"));
 
         var model = {
             AssignmentName: $("#assignmentCreateName").val(),
             AssignmentDescription: $("#assignmentCreateDescription").val(),
             DueDate: new Date($("#assignmentCreateDate").val()).toISOString(),
+            Completed: $("#assignmentCreateComplete").is(":checked")
         }
 
         console.log(model);
 
- 
-        $.ajax({
-            type: 'POST',
-            url: url,
-            contentType: 'application/json',
-            headers: {
-                "X-Requested-With": "XMLHttpRequest"
-            },
-            data: JSON.stringify(model),
-            success: function (result, status, jqXHR) {
-                if (jqXHR.getResponseHeader("is-valid") == "false") {
-                    $("#taskIndexView").html(result);
-                }
-                else {
-                    $("#taskIndexView").empty();
-                    window.location.replace(baseUrl);
-                }
-                
-
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log('POST error: ', textStatus, errorThrown, jqXHR)
+        AJAXRequest('POST', url, model, { "X-Requested-With": "XMLHttpRequest" }, function (response, status, jqXHR) {
+            if (jqXHR.getResponseHeader("is-valid") == "false") {
+                $("#taskIndexView").html(result);
             }
+            else {
+                $("#taskIndexView").empty();
+                window.location.replace(baseUrl);
+            }
+        }, function (jqXHR, textStatus, errorThrown) {
+            console.log('POST error: ', textStatus, errorThrown, jqXHR)
+        })
 
-        });
+        
 
         
     });
@@ -201,118 +243,142 @@ $(document).ready(function () {
 
     $(document).on('click', "#editSubmit", function () {
         var url = $(this).data('url');
+
+        
         var model = {
             AssignmentID: $('#assignmentEditID').val(),
             AssignmentName: $('#assignmentEditName').val(),
             AssignmentDescription: $('#assignmentEditDescription').val(),
-            DueDate: new Date($('#assignmentEditDueDate').val()).toISOString()
+            DueDate: new Date($('#assignmentEditDueDate').val()).toISOString(),
+            Completed: $("#assignmentEditComplete").is(":checked")
         }
+        console.log(model)
 
-        $.ajax({
-            type: 'POST',
-            url: url,
-            contentType: 'application/json',
-            headers: {
-                "X-Requested-With": "XMLHttpRequest"
-            },
-            data: JSON.stringify(model),
-            success: function (result, status, jqXHR) {
-                if (jqXHR.getResponseHeader("is-valid") == "false") {
-                    $("#taskIndexView").html(result);
-                }
-                else {
-                    $("#taskIndexView").empty();
-                    window.location.replace(baseUrl);
-                }
-                
-
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log('POST error: ', textStatus, errorThrown, jqXHR)
+        AJAXRequest('POST', url, model, { "X-Requested-With": "XMLHttpRequest" }, function (result, status, jqXHR) {
+            if (jqXHR.getResponseHeader("is-valid") == "false") {
+                $("#taskIndexView").html(result);
             }
-        })
+            else {
+                $("#taskIndexView").empty();
+                window.location.replace(baseUrl);
+            }
+        }, function (jqXHR, textStatus, errorThrown) {
+            console.log('POST error: ', textStatus, errorThrown, jqXHR)
+        });
+        
 
 
 
     });
 
+    function displayCompletedStatusNotification(isCompleted)
+    {
 
-    $("#formSubmit").submit(function (event) {
-        event.preventDefault();
-
-        var url = $(this).data('url');
-        var formData = $(this).serialize();
-
-        var model = {
-            AssignmentName: $('assignmentName').val(),
-            AssignmentDescription: $('assignmentDescription'),
-            DueDate: $('assignmentDate').val()
+        console.log("Completed:", isCompleted)
+        var completedNotification = $('.completed-notification')
+        if (isCompleted) {
+            console.log("Before add class", completedNotification)
+            completedNotification.addClass("completed-notification-active");
+            console.log("After add class", completedNotification)
+            completedNotification.html("Task added to completed list");
+        }
+        else { 
+            console.log("Before add class", completedNotification)
+            completedNotification.addClass("completed-notification-active");
+            console.log("After add class", completedNotification)
+            completedNotification.html("Task removed from completed list");
         }
 
-        console.log("Form Data: " + formData);
-
-        PostAJAX(formData, url)
-    })
-
-    /*$('.task-holder').on("click", function () {
-        console.log("The anchor is fired");
-        var url = $(this).attr('href');
-        console.log(url)
-        $('#taskView').load(url);
-    })*/
-
-    
-
-    /*function setCreateButtonPosition()
-    {
-        var card = $('#taskHolder').position().left
-        var cardList = $('.task-list')
-        var btn = $('.sort-container')
-
-        console.log("total position: " + (cardList.offset().left + card))
-        console.log("btn pos: " + btn.position().left )
-
-        btn.css('left', cardList.offset().left + card + 'px')
+        setTimeout(function () {
+            completedNotification.removeClass("completed-notification-active");
+        }, 1500)
     }
 
-    setCreateButtonPosition()
+    $(document).on("change", "#assignmentEditComplete", function () {
+        console.log("checkbox changed")
+        
+        var isChecked = $(this).is(":checked");
+        
 
-    $(window).on('resize', function () {
-        console.log("adjuested")
-        setCreateButtonPosition()
-    });*/
+        var taskId = $(this).data("id");
+        
+        var tasks = $('.task-anchor')
+        var currentTask = null;
+        var backupExists = false;
+        
 
-    $('.fa-arrow-down').on("click", function () {
-        $(this).toggleClass('fa-solid fa-angle-up');
+        /**
+         * TODO: replace task if element is on the same page when it was removed
+         * 
+         * */
+
+        $(tasks).each(function (pos, card)
+        {
+            console.log(card);
+            if ($(card).find("#assignmentDetailId").data("id") == taskId)
+            {
+                currentTask = card;
+                return false;
+            }
+
+
+        })
+        
+            var model = { id: taskId, completed: isChecked };
+        
+            AJAXRequest('POST', '/assignment/UpdateAssignmentCompletion', model, null, function (result, status, jqXHR) {
+                $(currentTask).toggleClass("cd-clicked");
+                $(currentTask).on('transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd', function () {
+                    console.log("transition ended");
+                    console.log("removing element in AJAX");
+                    $(this).parent().remove();
+                });
+                displayCompletedStatusNotification(isChecked);
+
+                
+                console.log("task updated successfully")
+
+                setTimeout(function () {
+                    $('#taskIndexView').empty();
+                }, 2000)
+
+            }, function (jqXHR, textStatus, errorThrown) {
+                console.log("error updating task", jqXHR, textStatus, errorThrown)
+            })
+        
+
+        console.log(currentTask);
+
     })
 
-    /*$('.task-holder').on("click", function () {
-        const icon = $(this).find('i').attr("class");
-        toggleAngle[icon]($(this).find('i'));
-        $('.task-desc', this).toggle();
-    })*/
+    /**
+     * Issue: ListDisplay incorrectly when sort is clicked
+     * */
 
     const sortSwitch = {
         "1": (value, list, parent) => {
             list.sort(function (a, b) { return getTargetElement(b, value).localeCompare(getTargetElement(a, value)); })
-            const newList = $('<div class="task-col-holder"></div>').append(list);
-            console.log(list.find("#assignmentName"));
-            parent.empty().append(newList);
-            //rearrageHTML(list)
+            console.log("Parent element:", parent)
+            console.log("initial List parent:", list.parent())
+            
+            parent.empty().append(list);
+            
         },
         "2": (value, list, parent) => {
             list.sort(function (a, b) { return getTargetElement(a, value).localeCompare(getTargetElement(b, value)) })
-            const newList = $('<div class="task-col-holder"></div>').append(list);
-            console.log(list.find("#assignmentName"));
-            parent.empty().append(newList);
-            //rearrageHTML(list)
+            console.log("Parent element:", parent)
+            console.log("initial List parent:", list.parent())
+            
+            parent.empty().append(list);
+            
         },
         "3": (value, list, parent) => {
             list.sort(function (a, b) { return getTargetElement(b, value).localeCompare(getTargetElement(a, value)) })
-            const newList = $('<div class="task-col-holder"></div>').append(list);
-            console.log(list.find("#assignmentName"));
-            parent.empty().append(newList);
-            //rearrageHTML(list)
+            console.log("Parent element:", parent)
+            console.log("initial List parent:", list.parent())
+            
+            parent.empty().append(list);
+            
         },
         "default": console.log("Unknown")
     }
@@ -326,7 +392,7 @@ $(document).ready(function () {
         sortSwitch[value](value, cards, row);
         
 
-        //sortSwitch[value](value, list) //|| sortSwitch["default"]();
+        
 
     });
 
@@ -345,12 +411,6 @@ $(document).ready(function () {
         const assignmentName = $(element).find("#assignmentName").html();
         console.log("assignment name:" +  assignmentName)
         return $(element).find("#assignmentName").html();
-    }
-
-    function rearrageHTML(elementList) {
-        for (var i = 0; i < elementList.length - 1; i++) {
-            elementList[i].parentNode.appendChild(elementList[i]);
-        }
     }
 
 

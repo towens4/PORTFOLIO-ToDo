@@ -10,6 +10,7 @@ using ToDo.Interfaces;
 using ToDo.Logic;
 using ToDo.Models.DataContexts;
 using ToDo.Models.DataModels;
+using ToDo.Models.HelperModels;
 using ToDo.ViewModels;
 
 namespace ToDo.Controllers
@@ -98,7 +99,7 @@ namespace ToDo.Controllers
             {
                 Assignment model = _repository.GetById(id);
                 AssignmentEditViewModel assignmentEditViewModel =
-                    new AssignmentEditViewModel(model.AssignmentID, model.AssignmentName, model.AssignmentDescription, model.DueDate);
+                    new AssignmentEditViewModel(model.AssignmentID, model.AssignmentName, model.AssignmentDescription, model.DueDate, model.Completed);
                 
 
                 if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
@@ -129,6 +130,7 @@ namespace ToDo.Controllers
                     newAssignment.AssignmentDescription = assignmentToEdit.AssignmentDescription;
                     newAssignment.AssignmentName = assignmentToEdit.AssignmentName;
                     newAssignment.DueDate = assignmentToEdit.DueDate;
+                    newAssignment.Completed = assignmentToEdit.Completed;
                     Response.Headers["is-valid"] = "true";
 
                     _repository.UpdateAssignment(newAssignment);
@@ -149,6 +151,18 @@ namespace ToDo.Controllers
             return View(assignmentToEdit);
         }
 
+
+        public IActionResult UpdateListComponent()
+        {
+            return ViewComponent("TaskList");
+        }
+        public void UpdateAssignmentCompletion([FromBody]AssignmentCompletionDto completionDto)
+        {
+            Assignment assignment = _repository.GetById(completionDto.Id);
+            assignment.Completed = completionDto.Completed;
+            _repository.UpdateAssignment(assignment);
+            //return View();
+        }
         //[HttpDelete]
         public IActionResult RemoveAssignment(int id)
         {
@@ -161,7 +175,7 @@ namespace ToDo.Controllers
         {
             Assignment model = _repository.GetById(id);
             AssignmentEditViewModel editModel = new AssignmentEditViewModel(model.AssignmentID, model.AssignmentName, 
-                model.AssignmentDescription, model.DueDate);
+                model.AssignmentDescription, model.DueDate, model.Completed);
 
             if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
                 return PartialView(editModel);

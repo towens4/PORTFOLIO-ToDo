@@ -24,18 +24,21 @@ namespace ToDo.Models.DataModels
 
         public int AssignmentID { get; set; }
         public IdentityUser User { get; set; }
+        [Display(Name = "Assignment Name")]
         [StringLength(90, ErrorMessage = "Assignment title is too long, cannot exceed 90 characters")]
         [Required]
         public string AssignmentName { get; set; }
+        [Display(Name = "Assignment Description")]
         [StringLength(500, ErrorMessage = "Assignment title is too long, cannot exceed 90 characters")]
         [Required]
         public string AssignmentDescription { get; set; }
         [DataType(DataType.DateTime)]
         public DateTime DateAssigned { get; set; } = DateTime.Now;
+        [Display(Name = "Due Date")]
         [DataType(DataType.DateTime)]
         public DateTime DueDate { get; set; }
         [Required]
-        public Boolean Completed { get; set; } = false;
+        public bool Completed { get; set; }
         [NotMapped]
         public string StrDate { get; set; }
         [NotMapped]

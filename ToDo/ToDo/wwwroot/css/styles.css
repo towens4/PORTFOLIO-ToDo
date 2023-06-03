@@ -1,8 +1,10 @@
-﻿:root {
+﻿@import url('https://unpkg.com/css.gg@2.0.0/icons/css/check.css');
+
+:root {
     --text-color: #000000;
     
     --main-color: #fff7d6;
-    --secondary-color: #00c6c3;
+    --secondary-color: hsla(179, 100%, 39%, 1);
     --other-color: #1c1f3b
 }
 
@@ -16,31 +18,15 @@ body {
     background: var(--main-color)
 }
 
-.cd {
-    width: 10rem;
-}
 
-@media screen and (max-width: 996px){
- .cd{
-     width: 18em;
- }
-}
-
-select {
-    font-size: 16px;
-    background-color: hsl(304, 23%, 76%);
-    color: #333;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 0.5em;
-}
-#navbar li a{
-    color:inherit
-}
 
 .cd {
     /*background-color: hsla(54, 36%, 17%, 1);*/
-    background-color: var(--secondary-color)
+    position: relative;
+    width: 10rem;
+    background-color: var(--secondary-color);
+    opacity: 1;
+    transition: opacity 1s linear, width 1s linear
 }
 
     .cd:hover {
@@ -51,34 +37,171 @@ select {
         background-color: hsla(54, 36%, 17%, 0.7);
     }
 
-.form-input{
-    border-radius: 50px;
-    padding:0.4em;
-}
-
-.form-input, select, option{
-    color: black;
-}
-
-.button-base {
-    padding: 0.5em 1.0em;
+.list-switch {
     display: inline-block;
-    border-radius: 0.5em;
-    color: hsl(0, 0%, 100%);
+    
+    background-color: hsl(0, 51%, 52%);
+    
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.list-switch-active {
+    background-color: #ae0000;
+}
+
+.task-anchor {
+    color: black;
+    float: left;
+    transform: scale(1);
+    transition: transform 500ms ease-in;
+}
+
+
+.cd-clicked {
+    overflow: hidden;
+    transform: scale(0);
+}
+
+.completed-container{
+    height: 0;
+}
+
+.completed-form{
+    position: relative;
+}
+
+.completed-notification{
+    /*
+        Place element on top of parent element
+    */
+    top: -20px;
+    position: relative;
+    background-color: hsl(0, 0%, 90%);
+    border-radius: 25%;
+    padding: .75em;
+    transform: scale(0);
+    transition: transform 500ms ease-out;
+}
+
+#assignmentEditComplete, .completed-notification{
+    position: absolute;
     
 }
 
-a {
-    text-decoration: none;
-    color: hsl(0, 0%, 100%);
+#assignmentEditComplete{
+    z-index: 2;
 }
 
-    a:hover {
+.completed-notification-active {
+    transform: scale(1);
+}
+
+.completed-icon {
+    position: absolute;
+    border-radius: 50%;
+    background-color: hsla(101, 100%, 51%, 1);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    margin: auto;
+    width: 7em;
+    height: 5em;
+}
+
+.tick-container {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1em 0;
+    width:fit-content;
+}
+
+.gg-text {
+    width: 1em;
+    height: 1em;
+}
+
+@media screen and (max-width: 996px){
+ .cd{
+     width: 18em;
+ }
+
+    .completed-icon {
+        position: absolute;
+        border-radius: 50%;
+        background-color: hsla(101, 100%, 51%, 1);
+        left: 65%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        margin: auto;
+        width: 7em;
+        height: 5em;
+        z-index: 1
+    }
+}
+
+@media screen and (max-width: 1200px) {
+  
+}
+
+
+
+.radio-button.selected {
+    background-color: #007bff;
+    color: #fff;
+}
+
+    select {
+        font-size: 16px;
+        background-color: hsl(304, 23%, 76%);
+        color: #333;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 0.5em;
+    }
+
+    #navbar li a {
+        color: inherit
+    }
+
+
+
+    .overdue {
+        background-color: hsla(360, 100%, 50%, 0.5)
+    }
+
+        .overdue:hover {
+            background-color: hsla(360, 100%, 70%, 0.5)
+        }
+
+    .form-input {
+        border-radius: 50px;
+        padding: 0.4em;
+    }
+
+    .form-input, select, option {
+        color: black;
+    }
+
+    .button-base {
+        padding: 0.5em 1.0em;
+        display: inline-block;
+        border-radius: 0.5em;
+        color: hsl(0, 0%, 100%);
+    }
+
+    a {
         text-decoration: none;
         color: hsl(0, 0%, 100%);
     }
 
-    .account-link{
+        a:hover {
+            text-decoration: none;
+            color: hsl(0, 0%, 100%);
+        }
+
+    .account-link {
         color: hsl(218, 100%, 59%)
     }
 
@@ -86,47 +209,41 @@ a {
             color: hsl(218, 100%, 80%)
         }
 
-.task-holder{
-    cursor:pointer;
-}
+    .task-holder {
+        cursor: pointer;
+    }
 
-.card-body:hover{
+    .card-body:hover {
+    }
 
-}
 
-.task-anchor {
-    color:black;
-    float: right;
-}
 
-a{
-    
-    color:inherit;
-}
 
-.sort-container{
-    
-}
+    a {
+        color: inherit;
+    }
 
-.task-holder:hover{
-    background-color: hsl(0, 0%, 80%)
-}
+    .sort-container {
+    }
 
-.submit-a-button {
-    background-color: hsla(0, 0%, 80%, 1);
-    color: black;
-    
-}
+    .task-holder:hover {
+        background-color: hsl(0, 0%, 80%)
+    }
 
-.delete-a-button {
-    background-color: hsla(25, 100%, 40%, 1);
-}
+    .submit-a-button {
+        background-color: hsla(0, 0%, 80%, 1);
+        color: black;
+    }
 
-.submit-button{
-    color: hsl(0, 0%, 100%)
-}
+    .delete-a-button {
+        background-color: hsla(25, 100%, 40%, 1);
+    }
 
-.submit-button a{
-    text-decoration: none;
-    color: hsl(0, 0%, 100%)
-}
+    .submit-button {
+        color: hsl(0, 0%, 100%)
+    }
+
+        .submit-button a {
+            text-decoration: none;
+            color: hsl(0, 0%, 100%)
+        }
