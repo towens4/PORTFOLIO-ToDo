@@ -3,6 +3,7 @@ using Azure.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualBasic;
 using System.Diagnostics;
 using System.Security.Claims;
@@ -116,10 +117,14 @@ namespace ToDo.Controllers
             return RedirectToAction("Index");
         }
 
+        /*TODO:
+         * Fix issue where edit assignment accepts an empty string
+         * 
+         */
+
         [HttpPost]
         public IActionResult EditAssignment([FromBody]AssignmentEditViewModel assignmentToEdit)
         {
-
             Response.Headers.Add("is-valid", "");
             if (ModelState.IsValid)
             {

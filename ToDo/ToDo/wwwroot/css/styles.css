@@ -2,9 +2,10 @@
 
 :root {
     --text-color: #000000;
-    
     --main-color: #fff7d6;
     --secondary-color: hsla(179, 100%, 39%, 1);
+    --tertiary-color: hsl(169, 100%, 25%);
+    --tertiary-active-color: hsl(169, 100%, 10%);
     --other-color: #1c1f3b
 }
 
@@ -18,7 +19,10 @@ body {
     background: var(--main-color)
 }
 
-
+.due-date {
+    font-size: 12px;
+    color: #4d4d4d
+}
 
 .cd {
     /*background-color: hsla(54, 36%, 17%, 1);*/
@@ -39,16 +43,15 @@ body {
 
 .list-switch {
     display: inline-block;
-    
-    background-color: hsl(0, 51%, 52%);
-    
+    /*background-color: hsl(0, 51%, 52%);*/
+    background-color: var(--tertiary-color);
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s ease;
 }
 
 .list-switch-active {
-    background-color: #ae0000;
+    background-color: var(--tertiary-active-color);
 }
 
 .task-anchor {
@@ -64,8 +67,8 @@ body {
     transform: scale(0);
 }
 
-.completed-container{
-    height: 0;
+.card-body{
+    padding: .5em .5em;
 }
 
 .completed-form{
@@ -76,13 +79,32 @@ body {
     /*
         Place element on top of parent element
     */
-    top: -20px;
+    top: 0;
+    bottom: 0;
     position: relative;
     background-color: hsl(0, 0%, 90%);
-    border-radius: 25%;
-    padding: .75em;
+    border-radius: 20px;
+    padding: .75em .75em;
     transform: scale(0);
-    transition: transform 500ms ease-out;
+    transition: 
+        transform 500ms ease-out,
+        top 500ms ease-out;
+}
+
+.completed-notification-active {
+    transform: scale(1);
+    top: -50px;
+}
+
+.task-status{
+    display:block;
+    background-color: azure;
+    padding: .2em;
+}
+
+.completed-task-status {
+    background: hsl(101, 100%, 45%);
+    text-align:center;
 }
 
 #assignmentEditComplete, .completed-notification{
@@ -94,32 +116,13 @@ body {
     z-index: 2;
 }
 
-.completed-notification-active {
-    transform: scale(1);
+.completed{
+    background: hsl(101, 100%, 58%)
 }
 
-.completed-icon {
-    position: absolute;
-    border-radius: 50%;
-    background-color: hsla(101, 100%, 51%, 1);
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    margin: auto;
-    width: 7em;
-    height: 5em;
-}
-
-.tick-container {
-    margin-left: auto;
-    margin-right: auto;
-    padding: 1em 0;
-    width:fit-content;
-}
-
-.gg-text {
-    width: 1em;
-    height: 1em;
+.error-text{
+    color: red;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
 }
 
 @media screen and (max-width: 996px){

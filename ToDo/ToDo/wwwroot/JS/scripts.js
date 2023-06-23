@@ -1,17 +1,6 @@
 ﻿
 //var sort_by_date = function (a, b) { return getTargetElement(a, value).localeCompare(getTargetElement(b, value)); }
 
-class DomHandler{
-    getDateTags(inputTaskList) {
-        for (let i = 0; i < inputTaskList.length; i++)
-        {
-            var tag = inputTaskList[i];
-            if (tag.id == "assignmentCreateDate" || tag.id == "assignmentEditDueDate")
-                return tag
-        }
-    }
-}
-
 function convertDateTime(dateTimeStr) {
     
     const [dateStr, timeStr] = dateTimeStr.split(" ");
@@ -60,7 +49,17 @@ const toggleAngle = {
 $(document).ready(function () {
 
     var taskCompletedBackup;
-    
+    var domHandler =
+    {
+        getDateTags: function (inputTaskList)
+        {
+            for (let i = 0; i < inputTaskList.length; i++) {
+                var tag = inputTaskList[i];
+                if (tag.id == "assignmentCreateDate" || tag.id == "assignmentEditDueDate")
+                    return tag
+            }
+        }
+    }
 
     // Initialize event logger
     eventLogger.initialize();
@@ -82,6 +81,7 @@ $(document).ready(function () {
                 var dateParts = $(card).find('#assignmentDate').html().split('/');
                 var dueDate = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
                 var isCompleted = $(card).find("#assignmentCompletion").html()
+                var taskStatus = $(card).find(".task-status");
                 
 
                 // Check if the task is overdue, due today, or not due yet
@@ -90,6 +90,8 @@ $(document).ready(function () {
                 {
                     console.log("Task is overdue");
                     $(card).find(".cd").toggleClass("overdue");
+                    $(taskStatus).toggleClass("overdue");
+                    $(taskStatus).html("overdue");
                     
                 }
                 else if (dueDate.getTime() === today.getTime())
@@ -101,7 +103,24 @@ $(document).ready(function () {
                     if ($(card).find(".cd").hasClass("overdue")) {
                         $(card).find(".cd").toggleClass("overdue");
                     }
+                    if ($(taskStatus).hasClass("overdue")) {
+                        $(taskStatus).toggleClass("overdue")
+                        $(taskStatus).html("");
+                    }
+                    else{
+                        $(taskStatus).toggle();
+                        $(taskStatus).html("");
+                    }
+                        
                     console.log("Task is not due yet");
+                }
+
+                if (isCompleted == "True")
+                {
+                    $(card).find(".cd").toggleClass("completed");
+                    $(taskStatus).toggle();
+                    $(taskStatus).toggleClass("completed-task-status");
+                    $(taskStatus).html("completed");
                 }
             });
         }
@@ -170,7 +189,10 @@ $(document).ready(function () {
         AJAXRequest('GET', url, null, null, function (response, status, jqXHR) {
             $('#taskIndexView').html(response);
             if (!url.includes("/Assignment/AssignmentDetails"))
-                handler.getDateTags(document.getElementsByTagName("input")).flatpickr(config);
+            {
+
+                domHandler.getDateTags(document.getElementsByTagName("input")).flatpickr(config);
+            }
 
         }, function (jqXHR, textStatus, errorThrown) {
             console.log('error: ', textStatus, errorThrown)
@@ -224,7 +246,7 @@ $(document).ready(function () {
 
         AJAXRequest('POST', url, model, { "X-Requested-With": "XMLHttpRequest" }, function (response, status, jqXHR) {
             if (jqXHR.getResponseHeader("is-valid") == "false") {
-                $("#taskIndexView").html(result);
+                $("#taskIndexView").html(response);
             }
             else {
                 $("#taskIndexView").empty();
@@ -333,6 +355,7 @@ $(document).ready(function () {
                     console.log("removing element in AJAX");
                     $(this).parent().remove();
                 });
+                $("#assignmentEditComplete").attr("disabled", "disabled");
                 displayCompletedStatusNotification(isChecked);
 
                 

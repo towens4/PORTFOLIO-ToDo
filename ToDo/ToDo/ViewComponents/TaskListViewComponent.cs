@@ -19,6 +19,7 @@ namespace ToDo.ViewComponents
             var userID = HttpContext.Session.GetString("Id");
             
             IEnumerable<Assignment> assignments = _repository.GetUncompletedAssignments(userID);
+            IEnumerable<Assignment> allAssignments = _repository.GetAssignments(userID);
             if (!HttpContext.User.Identity.IsAuthenticated)
             {
                 assignments =  new List<Assignment>();
@@ -29,9 +30,11 @@ namespace ToDo.ViewComponents
                 assignments = _repository.GetCompletedAssignments(userID);
             }
 
-            AssignmentListModel assignmentListModel = new AssignmentListModel() 
-            { 
-                AssignmentList = assignments
+            AssignmentListModel assignmentListModel = new AssignmentListModel()
+            {
+                AssignmentList = assignments,
+                TotalAssisignments = allAssignments
+                
             };
 
             

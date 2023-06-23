@@ -2,26 +2,26 @@
 <h2>Edit</h2>
 <form id="formSubmit" class="task-view" onsubmit="return false;" asp-action="EditAssignment" asp-controller="Assignment" method="post">
     <input id="assignmentEditID" type="hidden" asp-for="AssignmentID"/>
-    @Html.ValidationSummary()
+    @Html.ValidationSummary(false, "", new {@class = "error-text"})
     <div class="form-container">
         <label asp-for="AssignmentName"></label>
         <div>
             <input id="assignmentEditName" asp-for="AssignmentName" class="form-input" />
-            <span asp-validation-for="AssignmentName"></span>
+            <span class="text-danger" asp-validation-for="AssignmentName"></span>
         </div>
     </div>
     <div class="form-container">
         <label asp-for="AssignmentDescription"></label>
         <div>
             <textarea id="assignmentEditDescription" asp-for="AssignmentDescription" class="form-input"></textarea>
-            <span asp-validation-for="AssignmentDescription"></span>
+            <span class="text-danger" asp-validation-for="AssignmentDescription"></span>
         </div>
     </div>
     <div class="form-container">
         <label asp-for="DueDate"></label>
         <div>
             <input id="assignmentEditDueDate" asp-for="DueDate" class="form-input" />
-            <span asp-validation-for="DueDate"></span>
+            <span class="text-danger" asp-validation-for="DueDate"></span>
         </div>
     </div>
     <!--<div class="form-container">

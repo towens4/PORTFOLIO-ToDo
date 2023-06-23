@@ -7,10 +7,13 @@ namespace ToDo.ViewModels
     {
         public int AssignmentID { get; set; }
         [Display(Name = "Assignment Description")]
+        [Required]
         public string AssignmentDescription { get; set; }
         [Display(Name = "Assignment Name")]
+        [Required]
         public string AssignmentName { get; set; }
         [Display(Name = "Due Date")]
+        [Required]
         public DateTime DueDate { get; set; }
         public bool Completed { get; set; }
 

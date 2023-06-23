@@ -11,15 +11,16 @@
         <p>Please login to view or create assignments</p>
     </div>
 }
-@if ( Model.AssignmentList.Count().Equals(0) && signUser.IsSignedIn(User))
+@if ( Model.TotalAssisignments.Count().Equals(0) && signUser.IsSignedIn(User))
 {
+    
     <div class="notice">
         <h2>You have not created any assignments</h2>
         <p>Click below to create one</p>
         <button id="createAssignment" data-url="@Url.Action("CreateAssignment", "Assignment")" class="btn btn-primary submit-button">Create</button>
     </div>
 }
-else if (Model.AssignmentList.Count() > 0 && signUser.IsSignedIn(User))
+else if (Model.TotalAssisignments.Count() > 0 && signUser.IsSignedIn(User))
 {
     <div class="button-group">
         <a class="button-base list-switch list-switch-active" data-type="incomplete">Current Todo</a>
@@ -51,16 +52,19 @@ else if (Model.AssignmentList.Count() > 0 && signUser.IsSignedIn(User))
                                     <i class="gg-check"></i>
                                 </div>
                             </div>-->
-                            <div class="card-body">
+                            <div class="card-body" style="padding: .5em .5em">
                                 <h5 class="card-title h5" id="assignmentName">@Model.AssignmentName</h5>
                                 <div>
-                                    <p id="assignmentDate">@Model.StrDate</p>
-                                    <p id="assignmentTime">@Model.StrTime</p>
+                                    <span id="assignmentDate" class="due-date">@Model.StrDate</span>
+                                    <span>|</span>
+                                    <soan id="assignmentTime" class="due-date">@Model.StrTime</soan>
                                 </div>
 
                             <p id="assignmentCompletion" hidden>@Model.Completed</p>
-                            <p id="assignmentDetailId" data-id="@Model.AssignmentID"></p>
+                            <p id="assignmentDetailId" hidden data-id="@Model.AssignmentID"></p>
+                            
                             </div>
+                                <span class="task-status"></span>
                         </div>
                     </a>
                  </div>
